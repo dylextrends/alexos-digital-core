@@ -27,6 +27,9 @@ import { Route as AuthenticatedDebtManagementRouteImport } from './routes/_authe
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedCalendarRouteImport } from './routes/_authenticated/calendar'
 import { Route as AuthenticatedBankingRouteImport } from './routes/_authenticated/banking'
+import { Route as AuthenticatedMoneyCenterIndexRouteImport } from './routes/_authenticated/money-center.index'
+import { Route as AuthenticatedMoneyCenterTransactionsRouteImport } from './routes/_authenticated/money-center.transactions'
+import { Route as AuthenticatedMoneyCenterAccountsRouteImport } from './routes/_authenticated/money-center.accounts'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -120,6 +123,24 @@ const AuthenticatedBankingRoute = AuthenticatedBankingRouteImport.update({
   path: '/banking',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedMoneyCenterIndexRoute =
+  AuthenticatedMoneyCenterIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedMoneyCenterRoute,
+  } as any)
+const AuthenticatedMoneyCenterTransactionsRoute =
+  AuthenticatedMoneyCenterTransactionsRouteImport.update({
+    id: '/transactions',
+    path: '/transactions',
+    getParentRoute: () => AuthenticatedMoneyCenterRoute,
+  } as any)
+const AuthenticatedMoneyCenterAccountsRoute =
+  AuthenticatedMoneyCenterAccountsRouteImport.update({
+    id: '/accounts',
+    path: '/accounts',
+    getParentRoute: () => AuthenticatedMoneyCenterRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -132,13 +153,16 @@ export interface FileRoutesByFullPath {
   '/e-commerce': typeof AuthenticatedECommerceRoute
   '/goals': typeof AuthenticatedGoalsRoute
   '/marketing': typeof AuthenticatedMarketingRoute
-  '/money-center': typeof AuthenticatedMoneyCenterRoute
+  '/money-center': typeof AuthenticatedMoneyCenterRouteWithChildren
   '/notes': typeof AuthenticatedNotesRoute
   '/people': typeof AuthenticatedPeopleRoute
   '/reports': typeof AuthenticatedReportsRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/vehicle-sales': typeof AuthenticatedVehicleSalesRoute
+  '/money-center/accounts': typeof AuthenticatedMoneyCenterAccountsRoute
+  '/money-center/transactions': typeof AuthenticatedMoneyCenterTransactionsRoute
+  '/money-center/': typeof AuthenticatedMoneyCenterIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -151,13 +175,15 @@ export interface FileRoutesByTo {
   '/e-commerce': typeof AuthenticatedECommerceRoute
   '/goals': typeof AuthenticatedGoalsRoute
   '/marketing': typeof AuthenticatedMarketingRoute
-  '/money-center': typeof AuthenticatedMoneyCenterRoute
   '/notes': typeof AuthenticatedNotesRoute
   '/people': typeof AuthenticatedPeopleRoute
   '/reports': typeof AuthenticatedReportsRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/vehicle-sales': typeof AuthenticatedVehicleSalesRoute
+  '/money-center/accounts': typeof AuthenticatedMoneyCenterAccountsRoute
+  '/money-center/transactions': typeof AuthenticatedMoneyCenterTransactionsRoute
+  '/money-center': typeof AuthenticatedMoneyCenterIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -172,13 +198,16 @@ export interface FileRoutesById {
   '/_authenticated/e-commerce': typeof AuthenticatedECommerceRoute
   '/_authenticated/goals': typeof AuthenticatedGoalsRoute
   '/_authenticated/marketing': typeof AuthenticatedMarketingRoute
-  '/_authenticated/money-center': typeof AuthenticatedMoneyCenterRoute
+  '/_authenticated/money-center': typeof AuthenticatedMoneyCenterRouteWithChildren
   '/_authenticated/notes': typeof AuthenticatedNotesRoute
   '/_authenticated/people': typeof AuthenticatedPeopleRoute
   '/_authenticated/reports': typeof AuthenticatedReportsRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/tasks': typeof AuthenticatedTasksRoute
   '/_authenticated/vehicle-sales': typeof AuthenticatedVehicleSalesRoute
+  '/_authenticated/money-center/accounts': typeof AuthenticatedMoneyCenterAccountsRoute
+  '/_authenticated/money-center/transactions': typeof AuthenticatedMoneyCenterTransactionsRoute
+  '/_authenticated/money-center/': typeof AuthenticatedMoneyCenterIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -200,6 +229,9 @@ export interface FileRouteTypes {
     | '/settings'
     | '/tasks'
     | '/vehicle-sales'
+    | '/money-center/accounts'
+    | '/money-center/transactions'
+    | '/money-center/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -212,13 +244,15 @@ export interface FileRouteTypes {
     | '/e-commerce'
     | '/goals'
     | '/marketing'
-    | '/money-center'
     | '/notes'
     | '/people'
     | '/reports'
     | '/settings'
     | '/tasks'
     | '/vehicle-sales'
+    | '/money-center/accounts'
+    | '/money-center/transactions'
+    | '/money-center'
   id:
     | '__root__'
     | '/'
@@ -239,6 +273,9 @@ export interface FileRouteTypes {
     | '/_authenticated/settings'
     | '/_authenticated/tasks'
     | '/_authenticated/vehicle-sales'
+    | '/_authenticated/money-center/accounts'
+    | '/_authenticated/money-center/transactions'
+    | '/_authenticated/money-center/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -375,8 +412,49 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBankingRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/money-center/': {
+      id: '/_authenticated/money-center/'
+      path: '/'
+      fullPath: '/money-center/'
+      preLoaderRoute: typeof AuthenticatedMoneyCenterIndexRouteImport
+      parentRoute: typeof AuthenticatedMoneyCenterRoute
+    }
+    '/_authenticated/money-center/transactions': {
+      id: '/_authenticated/money-center/transactions'
+      path: '/transactions'
+      fullPath: '/money-center/transactions'
+      preLoaderRoute: typeof AuthenticatedMoneyCenterTransactionsRouteImport
+      parentRoute: typeof AuthenticatedMoneyCenterRoute
+    }
+    '/_authenticated/money-center/accounts': {
+      id: '/_authenticated/money-center/accounts'
+      path: '/accounts'
+      fullPath: '/money-center/accounts'
+      preLoaderRoute: typeof AuthenticatedMoneyCenterAccountsRouteImport
+      parentRoute: typeof AuthenticatedMoneyCenterRoute
+    }
   }
 }
+
+interface AuthenticatedMoneyCenterRouteChildren {
+  AuthenticatedMoneyCenterAccountsRoute: typeof AuthenticatedMoneyCenterAccountsRoute
+  AuthenticatedMoneyCenterTransactionsRoute: typeof AuthenticatedMoneyCenterTransactionsRoute
+  AuthenticatedMoneyCenterIndexRoute: typeof AuthenticatedMoneyCenterIndexRoute
+}
+
+const AuthenticatedMoneyCenterRouteChildren: AuthenticatedMoneyCenterRouteChildren =
+  {
+    AuthenticatedMoneyCenterAccountsRoute:
+      AuthenticatedMoneyCenterAccountsRoute,
+    AuthenticatedMoneyCenterTransactionsRoute:
+      AuthenticatedMoneyCenterTransactionsRoute,
+    AuthenticatedMoneyCenterIndexRoute: AuthenticatedMoneyCenterIndexRoute,
+  }
+
+const AuthenticatedMoneyCenterRouteWithChildren =
+  AuthenticatedMoneyCenterRoute._addFileChildren(
+    AuthenticatedMoneyCenterRouteChildren,
+  )
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedBankingRoute: typeof AuthenticatedBankingRoute
@@ -387,7 +465,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedECommerceRoute: typeof AuthenticatedECommerceRoute
   AuthenticatedGoalsRoute: typeof AuthenticatedGoalsRoute
   AuthenticatedMarketingRoute: typeof AuthenticatedMarketingRoute
-  AuthenticatedMoneyCenterRoute: typeof AuthenticatedMoneyCenterRoute
+  AuthenticatedMoneyCenterRoute: typeof AuthenticatedMoneyCenterRouteWithChildren
   AuthenticatedNotesRoute: typeof AuthenticatedNotesRoute
   AuthenticatedPeopleRoute: typeof AuthenticatedPeopleRoute
   AuthenticatedReportsRoute: typeof AuthenticatedReportsRoute
@@ -405,7 +483,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedECommerceRoute: AuthenticatedECommerceRoute,
   AuthenticatedGoalsRoute: AuthenticatedGoalsRoute,
   AuthenticatedMarketingRoute: AuthenticatedMarketingRoute,
-  AuthenticatedMoneyCenterRoute: AuthenticatedMoneyCenterRoute,
+  AuthenticatedMoneyCenterRoute: AuthenticatedMoneyCenterRouteWithChildren,
   AuthenticatedNotesRoute: AuthenticatedNotesRoute,
   AuthenticatedPeopleRoute: AuthenticatedPeopleRoute,
   AuthenticatedReportsRoute: AuthenticatedReportsRoute,
