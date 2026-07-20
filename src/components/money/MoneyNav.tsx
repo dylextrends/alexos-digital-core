@@ -12,7 +12,14 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const links = [
+type NavLink = {
+  to: string;
+  label: string;
+  icon: typeof LayoutDashboard;
+  exact?: boolean;
+};
+
+const links: NavLink[] = [
   { to: "/money-center", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/money-center/accounts", label: "Accounts", icon: Wallet },
   { to: "/money-center/transactions", label: "Transactions", icon: ArrowLeftRight },
@@ -22,7 +29,7 @@ const links = [
   { to: "/money-center/budgets", label: "Budgets", icon: PiggyBank },
   { to: "/money-center/expected", label: "Expected", icon: Clock },
   { to: "/money-center/analytics", label: "Analytics", icon: BarChart3 },
-] as const;
+];
 
 export function MoneyNav() {
   const path = useRouterState({ select: (r) => r.location.pathname });
