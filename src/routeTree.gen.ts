@@ -27,6 +27,15 @@ import { Route as AuthenticatedDebtManagementRouteImport } from './routes/_authe
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedCalendarRouteImport } from './routes/_authenticated/calendar'
 import { Route as AuthenticatedBankingRouteImport } from './routes/_authenticated/banking'
+import { Route as AuthenticatedMoneyCenterIndexRouteImport } from './routes/_authenticated/money-center.index'
+import { Route as AuthenticatedMoneyCenterTransfersRouteImport } from './routes/_authenticated/money-center.transfers'
+import { Route as AuthenticatedMoneyCenterTransactionsRouteImport } from './routes/_authenticated/money-center.transactions'
+import { Route as AuthenticatedMoneyCenterIncomeRouteImport } from './routes/_authenticated/money-center.income'
+import { Route as AuthenticatedMoneyCenterExpensesRouteImport } from './routes/_authenticated/money-center.expenses'
+import { Route as AuthenticatedMoneyCenterExpectedRouteImport } from './routes/_authenticated/money-center.expected'
+import { Route as AuthenticatedMoneyCenterBudgetsRouteImport } from './routes/_authenticated/money-center.budgets'
+import { Route as AuthenticatedMoneyCenterAnalyticsRouteImport } from './routes/_authenticated/money-center.analytics'
+import { Route as AuthenticatedMoneyCenterAccountsRouteImport } from './routes/_authenticated/money-center.accounts'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -120,6 +129,60 @@ const AuthenticatedBankingRoute = AuthenticatedBankingRouteImport.update({
   path: '/banking',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedMoneyCenterIndexRoute =
+  AuthenticatedMoneyCenterIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedMoneyCenterRoute,
+  } as any)
+const AuthenticatedMoneyCenterTransfersRoute =
+  AuthenticatedMoneyCenterTransfersRouteImport.update({
+    id: '/transfers',
+    path: '/transfers',
+    getParentRoute: () => AuthenticatedMoneyCenterRoute,
+  } as any)
+const AuthenticatedMoneyCenterTransactionsRoute =
+  AuthenticatedMoneyCenterTransactionsRouteImport.update({
+    id: '/transactions',
+    path: '/transactions',
+    getParentRoute: () => AuthenticatedMoneyCenterRoute,
+  } as any)
+const AuthenticatedMoneyCenterIncomeRoute =
+  AuthenticatedMoneyCenterIncomeRouteImport.update({
+    id: '/income',
+    path: '/income',
+    getParentRoute: () => AuthenticatedMoneyCenterRoute,
+  } as any)
+const AuthenticatedMoneyCenterExpensesRoute =
+  AuthenticatedMoneyCenterExpensesRouteImport.update({
+    id: '/expenses',
+    path: '/expenses',
+    getParentRoute: () => AuthenticatedMoneyCenterRoute,
+  } as any)
+const AuthenticatedMoneyCenterExpectedRoute =
+  AuthenticatedMoneyCenterExpectedRouteImport.update({
+    id: '/expected',
+    path: '/expected',
+    getParentRoute: () => AuthenticatedMoneyCenterRoute,
+  } as any)
+const AuthenticatedMoneyCenterBudgetsRoute =
+  AuthenticatedMoneyCenterBudgetsRouteImport.update({
+    id: '/budgets',
+    path: '/budgets',
+    getParentRoute: () => AuthenticatedMoneyCenterRoute,
+  } as any)
+const AuthenticatedMoneyCenterAnalyticsRoute =
+  AuthenticatedMoneyCenterAnalyticsRouteImport.update({
+    id: '/analytics',
+    path: '/analytics',
+    getParentRoute: () => AuthenticatedMoneyCenterRoute,
+  } as any)
+const AuthenticatedMoneyCenterAccountsRoute =
+  AuthenticatedMoneyCenterAccountsRouteImport.update({
+    id: '/accounts',
+    path: '/accounts',
+    getParentRoute: () => AuthenticatedMoneyCenterRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -132,13 +195,22 @@ export interface FileRoutesByFullPath {
   '/e-commerce': typeof AuthenticatedECommerceRoute
   '/goals': typeof AuthenticatedGoalsRoute
   '/marketing': typeof AuthenticatedMarketingRoute
-  '/money-center': typeof AuthenticatedMoneyCenterRoute
+  '/money-center': typeof AuthenticatedMoneyCenterRouteWithChildren
   '/notes': typeof AuthenticatedNotesRoute
   '/people': typeof AuthenticatedPeopleRoute
   '/reports': typeof AuthenticatedReportsRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/vehicle-sales': typeof AuthenticatedVehicleSalesRoute
+  '/money-center/accounts': typeof AuthenticatedMoneyCenterAccountsRoute
+  '/money-center/analytics': typeof AuthenticatedMoneyCenterAnalyticsRoute
+  '/money-center/budgets': typeof AuthenticatedMoneyCenterBudgetsRoute
+  '/money-center/expected': typeof AuthenticatedMoneyCenterExpectedRoute
+  '/money-center/expenses': typeof AuthenticatedMoneyCenterExpensesRoute
+  '/money-center/income': typeof AuthenticatedMoneyCenterIncomeRoute
+  '/money-center/transactions': typeof AuthenticatedMoneyCenterTransactionsRoute
+  '/money-center/transfers': typeof AuthenticatedMoneyCenterTransfersRoute
+  '/money-center/': typeof AuthenticatedMoneyCenterIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -151,13 +223,21 @@ export interface FileRoutesByTo {
   '/e-commerce': typeof AuthenticatedECommerceRoute
   '/goals': typeof AuthenticatedGoalsRoute
   '/marketing': typeof AuthenticatedMarketingRoute
-  '/money-center': typeof AuthenticatedMoneyCenterRoute
   '/notes': typeof AuthenticatedNotesRoute
   '/people': typeof AuthenticatedPeopleRoute
   '/reports': typeof AuthenticatedReportsRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/vehicle-sales': typeof AuthenticatedVehicleSalesRoute
+  '/money-center/accounts': typeof AuthenticatedMoneyCenterAccountsRoute
+  '/money-center/analytics': typeof AuthenticatedMoneyCenterAnalyticsRoute
+  '/money-center/budgets': typeof AuthenticatedMoneyCenterBudgetsRoute
+  '/money-center/expected': typeof AuthenticatedMoneyCenterExpectedRoute
+  '/money-center/expenses': typeof AuthenticatedMoneyCenterExpensesRoute
+  '/money-center/income': typeof AuthenticatedMoneyCenterIncomeRoute
+  '/money-center/transactions': typeof AuthenticatedMoneyCenterTransactionsRoute
+  '/money-center/transfers': typeof AuthenticatedMoneyCenterTransfersRoute
+  '/money-center': typeof AuthenticatedMoneyCenterIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -172,13 +252,22 @@ export interface FileRoutesById {
   '/_authenticated/e-commerce': typeof AuthenticatedECommerceRoute
   '/_authenticated/goals': typeof AuthenticatedGoalsRoute
   '/_authenticated/marketing': typeof AuthenticatedMarketingRoute
-  '/_authenticated/money-center': typeof AuthenticatedMoneyCenterRoute
+  '/_authenticated/money-center': typeof AuthenticatedMoneyCenterRouteWithChildren
   '/_authenticated/notes': typeof AuthenticatedNotesRoute
   '/_authenticated/people': typeof AuthenticatedPeopleRoute
   '/_authenticated/reports': typeof AuthenticatedReportsRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/tasks': typeof AuthenticatedTasksRoute
   '/_authenticated/vehicle-sales': typeof AuthenticatedVehicleSalesRoute
+  '/_authenticated/money-center/accounts': typeof AuthenticatedMoneyCenterAccountsRoute
+  '/_authenticated/money-center/analytics': typeof AuthenticatedMoneyCenterAnalyticsRoute
+  '/_authenticated/money-center/budgets': typeof AuthenticatedMoneyCenterBudgetsRoute
+  '/_authenticated/money-center/expected': typeof AuthenticatedMoneyCenterExpectedRoute
+  '/_authenticated/money-center/expenses': typeof AuthenticatedMoneyCenterExpensesRoute
+  '/_authenticated/money-center/income': typeof AuthenticatedMoneyCenterIncomeRoute
+  '/_authenticated/money-center/transactions': typeof AuthenticatedMoneyCenterTransactionsRoute
+  '/_authenticated/money-center/transfers': typeof AuthenticatedMoneyCenterTransfersRoute
+  '/_authenticated/money-center/': typeof AuthenticatedMoneyCenterIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -200,6 +289,15 @@ export interface FileRouteTypes {
     | '/settings'
     | '/tasks'
     | '/vehicle-sales'
+    | '/money-center/accounts'
+    | '/money-center/analytics'
+    | '/money-center/budgets'
+    | '/money-center/expected'
+    | '/money-center/expenses'
+    | '/money-center/income'
+    | '/money-center/transactions'
+    | '/money-center/transfers'
+    | '/money-center/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -212,13 +310,21 @@ export interface FileRouteTypes {
     | '/e-commerce'
     | '/goals'
     | '/marketing'
-    | '/money-center'
     | '/notes'
     | '/people'
     | '/reports'
     | '/settings'
     | '/tasks'
     | '/vehicle-sales'
+    | '/money-center/accounts'
+    | '/money-center/analytics'
+    | '/money-center/budgets'
+    | '/money-center/expected'
+    | '/money-center/expenses'
+    | '/money-center/income'
+    | '/money-center/transactions'
+    | '/money-center/transfers'
+    | '/money-center'
   id:
     | '__root__'
     | '/'
@@ -239,6 +345,15 @@ export interface FileRouteTypes {
     | '/_authenticated/settings'
     | '/_authenticated/tasks'
     | '/_authenticated/vehicle-sales'
+    | '/_authenticated/money-center/accounts'
+    | '/_authenticated/money-center/analytics'
+    | '/_authenticated/money-center/budgets'
+    | '/_authenticated/money-center/expected'
+    | '/_authenticated/money-center/expenses'
+    | '/_authenticated/money-center/income'
+    | '/_authenticated/money-center/transactions'
+    | '/_authenticated/money-center/transfers'
+    | '/_authenticated/money-center/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -375,8 +490,107 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBankingRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/money-center/': {
+      id: '/_authenticated/money-center/'
+      path: '/'
+      fullPath: '/money-center/'
+      preLoaderRoute: typeof AuthenticatedMoneyCenterIndexRouteImport
+      parentRoute: typeof AuthenticatedMoneyCenterRoute
+    }
+    '/_authenticated/money-center/transfers': {
+      id: '/_authenticated/money-center/transfers'
+      path: '/transfers'
+      fullPath: '/money-center/transfers'
+      preLoaderRoute: typeof AuthenticatedMoneyCenterTransfersRouteImport
+      parentRoute: typeof AuthenticatedMoneyCenterRoute
+    }
+    '/_authenticated/money-center/transactions': {
+      id: '/_authenticated/money-center/transactions'
+      path: '/transactions'
+      fullPath: '/money-center/transactions'
+      preLoaderRoute: typeof AuthenticatedMoneyCenterTransactionsRouteImport
+      parentRoute: typeof AuthenticatedMoneyCenterRoute
+    }
+    '/_authenticated/money-center/income': {
+      id: '/_authenticated/money-center/income'
+      path: '/income'
+      fullPath: '/money-center/income'
+      preLoaderRoute: typeof AuthenticatedMoneyCenterIncomeRouteImport
+      parentRoute: typeof AuthenticatedMoneyCenterRoute
+    }
+    '/_authenticated/money-center/expenses': {
+      id: '/_authenticated/money-center/expenses'
+      path: '/expenses'
+      fullPath: '/money-center/expenses'
+      preLoaderRoute: typeof AuthenticatedMoneyCenterExpensesRouteImport
+      parentRoute: typeof AuthenticatedMoneyCenterRoute
+    }
+    '/_authenticated/money-center/expected': {
+      id: '/_authenticated/money-center/expected'
+      path: '/expected'
+      fullPath: '/money-center/expected'
+      preLoaderRoute: typeof AuthenticatedMoneyCenterExpectedRouteImport
+      parentRoute: typeof AuthenticatedMoneyCenterRoute
+    }
+    '/_authenticated/money-center/budgets': {
+      id: '/_authenticated/money-center/budgets'
+      path: '/budgets'
+      fullPath: '/money-center/budgets'
+      preLoaderRoute: typeof AuthenticatedMoneyCenterBudgetsRouteImport
+      parentRoute: typeof AuthenticatedMoneyCenterRoute
+    }
+    '/_authenticated/money-center/analytics': {
+      id: '/_authenticated/money-center/analytics'
+      path: '/analytics'
+      fullPath: '/money-center/analytics'
+      preLoaderRoute: typeof AuthenticatedMoneyCenterAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedMoneyCenterRoute
+    }
+    '/_authenticated/money-center/accounts': {
+      id: '/_authenticated/money-center/accounts'
+      path: '/accounts'
+      fullPath: '/money-center/accounts'
+      preLoaderRoute: typeof AuthenticatedMoneyCenterAccountsRouteImport
+      parentRoute: typeof AuthenticatedMoneyCenterRoute
+    }
   }
 }
+
+interface AuthenticatedMoneyCenterRouteChildren {
+  AuthenticatedMoneyCenterAccountsRoute: typeof AuthenticatedMoneyCenterAccountsRoute
+  AuthenticatedMoneyCenterAnalyticsRoute: typeof AuthenticatedMoneyCenterAnalyticsRoute
+  AuthenticatedMoneyCenterBudgetsRoute: typeof AuthenticatedMoneyCenterBudgetsRoute
+  AuthenticatedMoneyCenterExpectedRoute: typeof AuthenticatedMoneyCenterExpectedRoute
+  AuthenticatedMoneyCenterExpensesRoute: typeof AuthenticatedMoneyCenterExpensesRoute
+  AuthenticatedMoneyCenterIncomeRoute: typeof AuthenticatedMoneyCenterIncomeRoute
+  AuthenticatedMoneyCenterTransactionsRoute: typeof AuthenticatedMoneyCenterTransactionsRoute
+  AuthenticatedMoneyCenterTransfersRoute: typeof AuthenticatedMoneyCenterTransfersRoute
+  AuthenticatedMoneyCenterIndexRoute: typeof AuthenticatedMoneyCenterIndexRoute
+}
+
+const AuthenticatedMoneyCenterRouteChildren: AuthenticatedMoneyCenterRouteChildren =
+  {
+    AuthenticatedMoneyCenterAccountsRoute:
+      AuthenticatedMoneyCenterAccountsRoute,
+    AuthenticatedMoneyCenterAnalyticsRoute:
+      AuthenticatedMoneyCenterAnalyticsRoute,
+    AuthenticatedMoneyCenterBudgetsRoute: AuthenticatedMoneyCenterBudgetsRoute,
+    AuthenticatedMoneyCenterExpectedRoute:
+      AuthenticatedMoneyCenterExpectedRoute,
+    AuthenticatedMoneyCenterExpensesRoute:
+      AuthenticatedMoneyCenterExpensesRoute,
+    AuthenticatedMoneyCenterIncomeRoute: AuthenticatedMoneyCenterIncomeRoute,
+    AuthenticatedMoneyCenterTransactionsRoute:
+      AuthenticatedMoneyCenterTransactionsRoute,
+    AuthenticatedMoneyCenterTransfersRoute:
+      AuthenticatedMoneyCenterTransfersRoute,
+    AuthenticatedMoneyCenterIndexRoute: AuthenticatedMoneyCenterIndexRoute,
+  }
+
+const AuthenticatedMoneyCenterRouteWithChildren =
+  AuthenticatedMoneyCenterRoute._addFileChildren(
+    AuthenticatedMoneyCenterRouteChildren,
+  )
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedBankingRoute: typeof AuthenticatedBankingRoute
@@ -387,7 +601,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedECommerceRoute: typeof AuthenticatedECommerceRoute
   AuthenticatedGoalsRoute: typeof AuthenticatedGoalsRoute
   AuthenticatedMarketingRoute: typeof AuthenticatedMarketingRoute
-  AuthenticatedMoneyCenterRoute: typeof AuthenticatedMoneyCenterRoute
+  AuthenticatedMoneyCenterRoute: typeof AuthenticatedMoneyCenterRouteWithChildren
   AuthenticatedNotesRoute: typeof AuthenticatedNotesRoute
   AuthenticatedPeopleRoute: typeof AuthenticatedPeopleRoute
   AuthenticatedReportsRoute: typeof AuthenticatedReportsRoute
@@ -405,7 +619,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedECommerceRoute: AuthenticatedECommerceRoute,
   AuthenticatedGoalsRoute: AuthenticatedGoalsRoute,
   AuthenticatedMarketingRoute: AuthenticatedMarketingRoute,
-  AuthenticatedMoneyCenterRoute: AuthenticatedMoneyCenterRoute,
+  AuthenticatedMoneyCenterRoute: AuthenticatedMoneyCenterRouteWithChildren,
   AuthenticatedNotesRoute: AuthenticatedNotesRoute,
   AuthenticatedPeopleRoute: AuthenticatedPeopleRoute,
   AuthenticatedReportsRoute: AuthenticatedReportsRoute,
