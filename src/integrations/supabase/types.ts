@@ -14,16 +14,271 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      accounts: {
+        Row: {
+          color: string
+          created_at: string
+          currency: string
+          deleted_at: string | null
+          icon: string
+          id: string
+          name: string
+          opening_balance: number
+          sort_order: number
+          status: Database["public"]["Enums"]["account_status"]
+          type: Database["public"]["Enums"]["account_type"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          color?: string
+          created_at?: string
+          currency?: string
+          deleted_at?: string | null
+          icon?: string
+          id?: string
+          name: string
+          opening_balance?: number
+          sort_order?: number
+          status?: Database["public"]["Enums"]["account_status"]
+          type?: Database["public"]["Enums"]["account_type"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          currency?: string
+          deleted_at?: string | null
+          icon?: string
+          id?: string
+          name?: string
+          opening_balance?: number
+          sort_order?: number
+          status?: Database["public"]["Enums"]["account_status"]
+          type?: Database["public"]["Enums"]["account_type"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      budgets: {
+        Row: {
+          amount: number
+          category: string
+          created_at: string
+          deleted_at: string | null
+          id: string
+          month: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          category: string
+          created_at?: string
+          deleted_at?: string | null
+          id?: string
+          month: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          category?: string
+          created_at?: string
+          deleted_at?: string | null
+          id?: string
+          month?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      expected_money: {
+        Row: {
+          account_id: string | null
+          amount: number
+          created_at: string
+          deleted_at: string | null
+          description: string | null
+          expected_date: string
+          id: string
+          probability: number
+          received_transaction_id: string | null
+          source: string
+          status: Database["public"]["Enums"]["expected_status"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          account_id?: string | null
+          amount: number
+          created_at?: string
+          deleted_at?: string | null
+          description?: string | null
+          expected_date: string
+          id?: string
+          probability?: number
+          received_transaction_id?: string | null
+          source: string
+          status?: Database["public"]["Enums"]["expected_status"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          account_id?: string | null
+          amount?: number
+          created_at?: string
+          deleted_at?: string | null
+          description?: string | null
+          expected_date?: string
+          id?: string
+          probability?: number
+          received_transaction_id?: string | null
+          source?: string
+          status?: Database["public"]["Enums"]["expected_status"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expected_money_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "account_balances"
+            referencedColumns: ["account_id"]
+          },
+          {
+            foreignKeyName: "expected_money_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expected_money_received_transaction_id_fkey"
+            columns: ["received_transaction_id"]
+            isOneToOne: false
+            referencedRelation: "transactions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      transactions: {
+        Row: {
+          account_id: string
+          amount: number
+          attachment_url: string | null
+          category: string | null
+          created_at: string
+          deleted_at: string | null
+          description: string | null
+          id: string
+          occurred_at: string
+          reference: string | null
+          source: string | null
+          status: Database["public"]["Enums"]["transaction_status"]
+          transfer_account_id: string | null
+          type: Database["public"]["Enums"]["transaction_type"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          account_id: string
+          amount: number
+          attachment_url?: string | null
+          category?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          description?: string | null
+          id?: string
+          occurred_at?: string
+          reference?: string | null
+          source?: string | null
+          status?: Database["public"]["Enums"]["transaction_status"]
+          transfer_account_id?: string | null
+          type: Database["public"]["Enums"]["transaction_type"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          account_id?: string
+          amount?: number
+          attachment_url?: string | null
+          category?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          description?: string | null
+          id?: string
+          occurred_at?: string
+          reference?: string | null
+          source?: string | null
+          status?: Database["public"]["Enums"]["transaction_status"]
+          transfer_account_id?: string | null
+          type?: Database["public"]["Enums"]["transaction_type"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transactions_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "account_balances"
+            referencedColumns: ["account_id"]
+          },
+          {
+            foreignKeyName: "transactions_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transactions_transfer_account_id_fkey"
+            columns: ["transfer_account_id"]
+            isOneToOne: false
+            referencedRelation: "account_balances"
+            referencedColumns: ["account_id"]
+          },
+          {
+            foreignKeyName: "transactions_transfer_account_id_fkey"
+            columns: ["transfer_account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
-      [_ in never]: never
+      account_balances: {
+        Row: {
+          account_id: string | null
+          balance: number | null
+          money_in: number | null
+          money_out: number | null
+          user_id: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      account_status: "active" | "archived"
+      account_type:
+        | "cash"
+        | "bank"
+        | "mobile_money"
+        | "credit_card"
+        | "wallet"
+        | "other"
+      expected_status: "pending" | "received" | "cancelled"
+      transaction_status: "posted" | "pending" | "void"
+      transaction_type: "income" | "expense" | "transfer" | "adjustment"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +405,19 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      account_status: ["active", "archived"],
+      account_type: [
+        "cash",
+        "bank",
+        "mobile_money",
+        "credit_card",
+        "wallet",
+        "other",
+      ],
+      expected_status: ["pending", "received", "cancelled"],
+      transaction_status: ["posted", "pending", "void"],
+      transaction_type: ["income", "expense", "transfer", "adjustment"],
+    },
   },
 } as const
