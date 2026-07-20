@@ -23,7 +23,8 @@ export function AppSidebar() {
   const currentPath = useRouterState({ select: (r) => r.location.pathname });
   const navigate = useNavigate();
 
-  const isActive = (path: string) => currentPath === path;
+  const isActive = (path: string) =>
+    currentPath === path || (path !== "/dashboard" && currentPath.startsWith(path + "/"));
 
   const signOut = async () => {
     await supabase.auth.signOut();
