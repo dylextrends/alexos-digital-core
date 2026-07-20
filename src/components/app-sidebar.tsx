@@ -1,0 +1,97 @@
+import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
+} from "@/components/ui/sidebar";
+import { modules, moduleGroups } from "@/lib/modules";
+import { LogOut } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+
+export function AppSidebar() {
+  const { state } = useSidebar();
+  const collapsed = state === "collapsed";
+  const currentPath = useRouterState({ select: (r) => r.location.pathname });
+  const navigate = useNavigate();
+
+  const isActive = (path: string) => currentPath === path;
+
+  const signOut = async () => {
+    await supabase.auth.signOut();
+    toast.success("Signed out");
+    navigate({ to: "/auth", replace: true });
+  };
+
+  return (
+    <Sidebar collapsible="icon" className="border-r border-sidebar-border">
+      <SidebarHeader className="border-b border-sidebar-border">
+        <Link
+          to="/dashboard"
+          className="flex items-center gap-2 px-2 py-2 text-sidebar-foreground"
+        >
+          <div className="h-8 w-8 shrink-0 rounded-md bg-sidebar-primary grid place-items-center text-sidebar-primary-foreground font-bold">
+            A
+          </div>
+          {!collapsed && (
+            <div className="min-w-0">
+              <div className="text-sm font-semibold truncate">Alex OS</div>
+              <div className="text-[10px] uppercase tracking-widest text-sidebar-foreground/60">
+                Professional
+              </div>
+            </div>
+          )}
+        </Link>
+      </SidebarHeader>
+
+      <SidebarContent>
+        {moduleGroups.map((group) => {
+          const items = modules.filter((m) => m.group === group);
+          if (!items.length) return null;
+          return (
+            <SidebarGroup key={group}>
+              {!collapsed && <SidebarGroupLabel>{group}</SidebarGroupLabel>}
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {items.map((item) => (
+                    <SidebarMenuItem key={item.url}>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={isActive(item.url)}
+                        tooltip={item.title}
+                      >
+                        <Link to={item.url}>
+                          <item.icon className="h-4 w-4" />
+                          <span>{item.title}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          );
+        })}
+      </SidebarContent>
+
+      <SidebarFooter className="border-t border-sidebar-border">
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton onClick={signOut} tooltip="Sign out">
+              <LogOut className="h-4 w-4" />
+              <span>Sign out</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
+    </Sidebar>
+  );
+}
