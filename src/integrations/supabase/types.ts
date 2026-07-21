@@ -95,6 +95,63 @@ export type Database = {
         }
         Relationships: []
       }
+      debts: {
+        Row: {
+          amount_paid: number
+          category: string | null
+          created_at: string
+          deleted_at: string | null
+          due_date: string | null
+          id: string
+          interest_rate: number
+          minimum_payment: number
+          name: string
+          notes: string | null
+          principal: number
+          priority: Database["public"]["Enums"]["debt_priority"]
+          sort_order: number
+          status: Database["public"]["Enums"]["debt_status"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount_paid?: number
+          category?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          due_date?: string | null
+          id?: string
+          interest_rate?: number
+          minimum_payment?: number
+          name: string
+          notes?: string | null
+          principal?: number
+          priority?: Database["public"]["Enums"]["debt_priority"]
+          sort_order?: number
+          status?: Database["public"]["Enums"]["debt_status"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount_paid?: number
+          category?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          due_date?: string | null
+          id?: string
+          interest_rate?: number
+          minimum_payment?: number
+          name?: string
+          notes?: string | null
+          principal?: number
+          priority?: Database["public"]["Enums"]["debt_priority"]
+          sort_order?: number
+          status?: Database["public"]["Enums"]["debt_status"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       expected_money: {
         Row: {
           account_id: string | null
@@ -164,6 +221,105 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      goal_contributions: {
+        Row: {
+          account_id: string | null
+          amount: number
+          created_at: string
+          deleted_at: string | null
+          goal_id: string
+          id: string
+          note: string | null
+          occurred_at: string
+          user_id: string
+        }
+        Insert: {
+          account_id?: string | null
+          amount: number
+          created_at?: string
+          deleted_at?: string | null
+          goal_id: string
+          id?: string
+          note?: string | null
+          occurred_at?: string
+          user_id: string
+        }
+        Update: {
+          account_id?: string | null
+          amount?: number
+          created_at?: string
+          deleted_at?: string | null
+          goal_id?: string
+          id?: string
+          note?: string | null
+          occurred_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "goal_contributions_goal_id_fkey"
+            columns: ["goal_id"]
+            isOneToOne: false
+            referencedRelation: "goal_progress"
+            referencedColumns: ["goal_id"]
+          },
+          {
+            foreignKeyName: "goal_contributions_goal_id_fkey"
+            columns: ["goal_id"]
+            isOneToOne: false
+            referencedRelation: "goals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      goals: {
+        Row: {
+          category: string | null
+          created_at: string
+          deleted_at: string | null
+          icon: string
+          id: string
+          name: string
+          notes: string | null
+          sort_order: number
+          status: Database["public"]["Enums"]["goal_status"]
+          target_amount: number
+          target_date: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          icon?: string
+          id?: string
+          name: string
+          notes?: string | null
+          sort_order?: number
+          status?: Database["public"]["Enums"]["goal_status"]
+          target_amount?: number
+          target_date?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          icon?: string
+          id?: string
+          name?: string
+          notes?: string | null
+          sort_order?: number
+          status?: Database["public"]["Enums"]["goal_status"]
+          target_amount?: number
+          target_date?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       transactions: {
         Row: {
@@ -263,6 +419,14 @@ export type Database = {
         }
         Relationships: []
       }
+      goal_progress: {
+        Row: {
+          current_amount: number | null
+          goal_id: string | null
+          user_id: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never
@@ -276,7 +440,10 @@ export type Database = {
         | "credit_card"
         | "wallet"
         | "other"
+      debt_priority: "low" | "medium" | "high"
+      debt_status: "active" | "paid" | "defaulted" | "archived"
       expected_status: "pending" | "received" | "cancelled"
+      goal_status: "active" | "achieved" | "paused" | "archived"
       transaction_status: "posted" | "pending" | "void"
       transaction_type: "income" | "expense" | "transfer" | "adjustment"
     }
@@ -415,7 +582,10 @@ export const Constants = {
         "wallet",
         "other",
       ],
+      debt_priority: ["low", "medium", "high"],
+      debt_status: ["active", "paid", "defaulted", "archived"],
       expected_status: ["pending", "received", "cancelled"],
+      goal_status: ["active", "achieved", "paused", "archived"],
       transaction_status: ["posted", "pending", "void"],
       transaction_type: ["income", "expense", "transfer", "adjustment"],
     },
