@@ -18,18 +18,29 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 export function AppSidebar() {
-  const { state } = useSidebar();
+  const { state, setOpenMobile } = useSidebar();
+
   const collapsed = state === "collapsed";
-  const currentPath = useRouterState({ select: (r) => r.location.pathname });
+
+  const currentPath = useRouterState({
+    select: (r) => r.location.pathname,
+  });
+
   const navigate = useNavigate();
 
   const isActive = (path: string) =>
-    currentPath === path || (path !== "/dashboard" && currentPath.startsWith(path + "/"));
+    currentPath === path ||
+    (path !== "/dashboard" && currentPath.startsWith(path + "/"));
+
+  const closeSidebar = () => {
+    setOpenMobile(false);
+  };
 
   const signOut = async () => {
     await supabase.auth.signOut();
     toast.success("Signed out");
     navigate({ to: "/auth", replace: true });
+    closeSidebar();
   };
 
   return (
@@ -37,14 +48,19 @@ export function AppSidebar() {
       <SidebarHeader className="border-b border-sidebar-border">
         <Link
           to="/dashboard"
+          onClick={closeSidebar}
           className="flex items-center gap-2 px-2 py-2 text-sidebar-foreground"
         >
           <div className="h-8 w-8 shrink-0 rounded-md bg-sidebar-primary grid place-items-center text-sidebar-primary-foreground font-bold">
             A
           </div>
+
           {!collapsed && (
             <div className="min-w-0">
-              <div className="text-sm font-semibold truncate">Alex OS</div>
+              <div className="text-sm font-semibold truncate">
+                Alex OS
+              </div>
+
               <div className="text-[10px] uppercase tracking-widest text-sidebar-foreground/60">
                 Professional
               </div>
@@ -55,11 +71,20 @@ export function AppSidebar() {
 
       <SidebarContent>
         {moduleGroups.map((group) => {
-          const items = modules.filter((m) => m.group === group);
+          const items = modules.filter(
+            (module) => module.group === group
+          );
+
           if (!items.length) return null;
+
           return (
             <SidebarGroup key={group}>
-              {!collapsed && <SidebarGroupLabel>{group}</SidebarGroupLabel>}
+              {!collapsed && (
+                <SidebarGroupLabel>
+                  {group}
+                </SidebarGroupLabel>
+              )}
+
               <SidebarGroupContent>
                 <SidebarMenu>
                   {items.map((item) => (
@@ -69,7 +94,10 @@ export function AppSidebar() {
                         isActive={isActive(item.url)}
                         tooltip={item.title}
                       >
-                        <Link to={item.url}>
+                        <Link
+                          to={item.url}
+                          onClick={closeSidebar}
+                        >
                           <item.icon className="h-4 w-4" />
                           <span>{item.title}</span>
                         </Link>
@@ -86,7 +114,10 @@ export function AppSidebar() {
       <SidebarFooter className="border-t border-sidebar-border">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton onClick={signOut} tooltip="Sign out">
+            <SidebarMenuButton
+              onClick={signOut}
+              tooltip="Sign out"
+            >
               <LogOut className="h-4 w-4" />
               <span>Sign out</span>
             </SidebarMenuButton>
