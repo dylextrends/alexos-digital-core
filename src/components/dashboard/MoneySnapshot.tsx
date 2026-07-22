@@ -1,22 +1,54 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { TrendingDown, TrendingUp, Wallet, Landmark, ArrowDownCircle } from "lucide-react";
+import {
+  TrendingDown,
+  TrendingUp,
+  Wallet,
+  Landmark,
+  ArrowDownCircle,
+} from "lucide-react";
+
 import { useAccountBalances, useTransactions } from "@/lib/money/api";
+import { useDebts, debtRemaining } from "@/lib/debts/api";
 import { formatMoney } from "@/lib/money/format";
 
 export default function MoneySnapshot() {
   const { data: balances = [] } = useAccountBalances();
   const { data: transactions = [] } = useTransactions();
+  const { data: debts = [] } = useDebts();
+
+  // ==========================
+  // CASH AVAILABLE
+  // ==========================
 
   const cashAvailable = balances.reduce(
     (total, account) => total + Number(account.balance),
     0
   );
 
+  // ==========================
+  // TOTAL DEBT
+  // ==========================
+
+  const totalDebt = debts
+    .filter((d) => d.status !== "paid")
+    .reduce((sum, debt) => sum + debtRemaining(debt), 0);
+
+  // ==========================
+  // NET WORTH
+  // ==========================
+
+  const netWorth = cashAvailable - totalDebt;
+
+  // ==========================
+  // MONTHLY INCOME / EXPENSES
+  // ==========================
+
   const currentMonth = new Date().getMonth();
   const currentYear = new Date().getFullYear();
 
   const monthTransactions = transactions.filter((t) => {
     const date = new Date(t.occurred_at);
+
     return (
       date.getMonth() === currentMonth &&
       date.getFullYear() === currentYear &&
@@ -32,23 +64,20 @@ export default function MoneySnapshot() {
     .filter((t) => t.type === "expense")
     .reduce((sum, t) => sum + Number(t.amount), 0);
 
-  const debt = 0;
-  const netWorth = cashAvailable - debt;
-
   const cards = [
     {
       title: "Cash Available",
       value: formatMoney(cashAvailable),
       icon: Wallet,
       color: "text-blue-600",
-      trend: "Live Balance",
+      trend: "Across All Accounts",
     },
     {
       title: "Net Worth",
       value: formatMoney(netWorth),
       icon: Landmark,
-      color: "text-violet-600",
-      trend: "Assets - Liabilities",
+      color: netWorth >= 0 ? "text-violet-600" : "text-red-600",
+      trend: "Cash - Debt",
     },
     {
       title: "Income",
@@ -65,11 +94,11 @@ export default function MoneySnapshot() {
       trend: "This Month",
     },
     {
-      title: "Debt",
-      value: formatMoney(debt),
+      title: "Outstanding Debt",
+      value: formatMoney(totalDebt),
       icon: ArrowDownCircle,
       color: "text-orange-600",
-      trend: "Coming Soon",
+      trend: `${debts.filter((d) => d.status !== "paid").length} Active Debt(s)`,
     },
   ];
 
