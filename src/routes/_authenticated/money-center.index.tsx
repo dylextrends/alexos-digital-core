@@ -145,6 +145,9 @@ function MoneyDashboard() {
               <div className="text-lg font-semibold tracking-tight truncate">
                 {formatMoney(k.value)}
               </div>
+              {"hint" in k && k.hint && (
+                <div className="text-xs text-muted-foreground mt-0.5">{k.hint}</div>
+              )}
             </CardContent>
           </Card>
         ))}
