@@ -1,171 +1,152 @@
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import type { Database } from "@/integrations/supabase/types";
 
-export type BillFrequency = "weekly" | "monthly" | "quarterly" | "yearly";
+export type BillFrequency = Database["public"]["Enums"]["bill_frequency"];
+export type BillStatus = Database["public"]["Enums"]["bill_status"];
+export type Bill = Database["public"]["Tables"]["bills"]["Row"];
 
-export interface Bill {
-  id: string;
-  user_id: string;
-
+export interface BillInput {
+  id?: string;
   name: string;
   amount: number;
-
-  category: string | null;
-
-  due_day: number | null;
-
-  frequency: BillFrequency;
-
-  notes: string | null;
-
-  account_id: string | null;
-
-  status: string;
-
-  auto_create_transaction: boolean | null;
-
-  created_at: string;
-}
-
-export interface CreateBillInput {
-  name: string;
-
-  amount: number;
-
   category?: string | null;
-
-  due_day?: number | null;
-
+  due_date: string; // ISO date (YYYY-MM-DD)
   frequency: BillFrequency;
-
-  notes?: string | null;
-
+  status?: BillStatus;
   account_id?: string | null;
-
+  notes?: string | null;
   auto_create_transaction?: boolean;
 }
 
-// GET ALL BILLS
+const BILLS_KEY = ["bills"] as const;
 
-export async function getBills(): Promise<Bill[]> {
-  const { data, error } = await supabase.from("bills").select("*").order("created_at", {
-    ascending: false,
+export function useBills() {
+  return useQuery({
+    queryKey: BILLS_KEY,
+    queryFn: async (): Promise<Bill[]> => {
+      const { data, error } = await supabase
+        .from("bills")
+        .select("*")
+        .is("deleted_at", null)
+        .order("due_date", { ascending: true });
+      if (error) throw error;
+      return data ?? [];
+    },
   });
-
-  if (error) {
-    throw error;
-  }
-
-  return data as Bill[];
 }
 
-// GET SINGLE BILL
-
-export async function getBill(id: string): Promise<Bill | null> {
-  const { data, error } = await supabase.from("bills").select("*").eq("id", id).single();
-
-  if (error) {
-    throw error;
-  }
-
-  return data as Bill;
+function advanceDueDate(dueDate: string, frequency: BillFrequency): string {
+  const d = new Date(dueDate + "T00:00:00");
+  if (frequency === "weekly") d.setDate(d.getDate() + 7);
+  else if (frequency === "monthly") d.setMonth(d.getMonth() + 1);
+  return d.toISOString().slice(0, 10);
 }
 
-// CREATE BILL
+export function useSaveBill() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: BillInput): Promise<Bill> => {
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+      if (userError || !user) throw new Error("Not authenticated");
 
-export async function createBill(input: CreateBillInput): Promise<Bill> {
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser();
+      const payload = {
+        user_id: user.id,
+        name: input.name,
+        amount: input.amount,
+        category: input.category ?? null,
+        due_date: input.due_date,
+        frequency: input.frequency,
+        status: input.status ?? "pending",
+        account_id: input.account_id ?? null,
+        notes: input.notes ?? null,
+        auto_create_transaction: input.auto_create_transaction ?? false,
+      };
 
-  if (userError || !user) {
-    throw new Error("User not authenticated");
-  }
-
-  const { data, error } = await supabase
-    .from("bills")
-    .insert({
-      user_id: user.id,
-
-      name: input.name,
-
-      amount: input.amount,
-
-      category: input.category ?? null,
-
-      due_day: input.due_day ?? null,
-
-      frequency: input.frequency,
-
-      notes: input.notes ?? null,
-
-      account_id: input.account_id ?? null,
-
-      auto_create_transaction: input.auto_create_transaction ?? false,
-    })
-    .select()
-    .single();
-
-  if (error) {
-    throw error;
-  }
-
-  return data as Bill;
+      if (input.id) {
+        const { data, error } = await supabase
+          .from("bills")
+          .update(payload)
+          .eq("id", input.id)
+          .select()
+          .single();
+        if (error) throw error;
+        return data;
+      }
+      const { data, error } = await supabase
+        .from("bills")
+        .insert(payload)
+        .select()
+        .single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: BILLS_KEY }),
+  });
 }
 
-// UPDATE BILL
-
-export async function updateBill(id: string, updates: Partial<CreateBillInput>): Promise<Bill> {
-  const { data, error } = await supabase
-    .from("bills")
-    .update(updates)
-    .eq("id", id)
-    .select()
-    .single();
-
-  if (error) {
-    throw error;
-  }
-
-  return data as Bill;
+export function useDeleteBill() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from("bills")
+        .update({ deleted_at: new Date().toISOString() })
+        .eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: BILLS_KEY }),
+  });
 }
 
-// DELETE BILL
+export function useMarkBillPaid() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (bill: Bill) => {
+      const now = new Date().toISOString();
 
-export async function deleteBill(id: string): Promise<void> {
-  const { error } = await supabase.from("bills").delete().eq("id", id);
+      if (bill.auto_create_transaction && bill.account_id) {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        if (user) {
+          await supabase.from("transactions").insert({
+            user_id: user.id,
+            type: "expense",
+            account_id: bill.account_id,
+            amount: bill.amount,
+            category: bill.category,
+            description: `Bill: ${bill.name}`,
+            occurred_at: now,
+          });
+        }
+      }
 
-  if (error) {
-    throw error;
-  }
-}
-
-// GET ACTIVE BILLS
-
-export async function getActiveBills(): Promise<Bill[]> {
-  const { data, error } = await supabase
-    .from("bills")
-    .select("*")
-    .eq("status", "active")
-    .order("due_day", {
-      ascending: true,
-    });
-
-  if (error) {
-    throw error;
-  }
-
-  return data as Bill[];
-}
-
-// TOTAL MONTHLY BILLS
-
-export async function getMonthlyBillsTotal(): Promise<number> {
-  const bills = await getActiveBills();
-
-  return bills.reduce(
-    (total, bill) => total + Number(bill.amount),
-
-    0,
-  );
+      if (bill.frequency === "one_time") {
+        const { error } = await supabase
+          .from("bills")
+          .update({ status: "paid", last_paid_at: now })
+          .eq("id", bill.id);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase
+          .from("bills")
+          .update({
+            status: "pending",
+            last_paid_at: now,
+            due_date: advanceDueDate(bill.due_date, bill.frequency),
+          })
+          .eq("id", bill.id);
+        if (error) throw error;
+      }
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: BILLS_KEY });
+      qc.invalidateQueries({ queryKey: ["transactions"] });
+      qc.invalidateQueries({ queryKey: ["balances"] });
+    },
+  });
 }

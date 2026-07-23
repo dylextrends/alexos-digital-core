@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { QuickActions } from "@/components/money/QuickActions";
 import { useAccountBalances, useAccounts, useExpected, useTransactions } from "@/lib/money/api";
+import { useBills } from "@/lib/money/bills";
 import { ACCOUNT_ICONS } from "@/lib/money/constants";
 import { formatDate, formatMoney, formatTime } from "@/lib/money/format";
 import {
@@ -13,6 +14,7 @@ import {
   TrendingDown,
   Clock,
   PiggyBank,
+  Receipt,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -25,6 +27,7 @@ function MoneyDashboard() {
   const { data: balances = [] } = useAccountBalances();
   const { data: txs = [] } = useTransactions({ limit: 8 });
   const { data: pendingExpected = [] } = useExpected("pending");
+  const { data: bills = [] } = useBills();
 
   const now = new Date();
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
@@ -42,6 +45,15 @@ function MoneyDashboard() {
     (s, e) => s + (Number(e.amount) * e.probability) / 100,
     0,
   );
+  const monthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+  const unpaidBills = bills.filter((b) => b.status === "pending");
+  const unpaidTotal = unpaidBills.reduce((s, b) => s + Number(b.amount), 0);
+  const upcomingBills = unpaidBills.filter((b) => {
+    const d = new Date(b.due_date + "T00:00:00");
+    const diff = Math.round((d.getTime() - new Date(now.toDateString()).getTime()) / 86_400_000);
+    return diff >= 0 && diff <= 7;
+  });
+  const billsThisMonth = unpaidBills.filter((b) => b.due_date.startsWith(monthKey));
 
   const kpis = [
     { label: "Total Available", value: total, icon: Wallet, tone: "text-primary" },
@@ -65,6 +77,27 @@ function MoneyDashboard() {
     },
     { label: "Expected (weighted)", value: expectedTotal, icon: Clock, tone: "text-amber-600" },
     { label: "Net Worth", value: total, icon: Wallet, tone: "text-primary" },
+    {
+      label: "Upcoming Bills (7d)",
+      value: upcomingBills.reduce((s, b) => s + Number(b.amount), 0),
+      icon: Clock,
+      tone: "text-primary",
+      hint: `${upcomingBills.length} bills`,
+    },
+    {
+      label: "Unpaid Bills",
+      value: unpaidTotal,
+      icon: Receipt,
+      tone: "text-destructive",
+      hint: `${unpaidBills.length} pending`,
+    },
+    {
+      label: "Bills Due This Month",
+      value: billsThisMonth.reduce((s, b) => s + Number(b.amount), 0),
+      icon: Receipt,
+      tone: "text-amber-600",
+      hint: `${billsThisMonth.length} bills`,
+    },
   ];
 
   return (
@@ -112,6 +145,9 @@ function MoneyDashboard() {
               <div className="text-lg font-semibold tracking-tight truncate">
                 {formatMoney(k.value)}
               </div>
+              {"hint" in k && k.hint && (
+                <div className="text-xs text-muted-foreground mt-0.5">{k.hint}</div>
+              )}
             </CardContent>
           </Card>
         ))}
