@@ -29,8 +29,7 @@ export function AppSidebar() {
   const navigate = useNavigate();
 
   const isActive = (path: string) =>
-    currentPath === path ||
-    (path !== "/dashboard" && currentPath.startsWith(path + "/"));
+    currentPath === path || (path !== "/dashboard" && currentPath.startsWith(path + "/"));
 
   const closeSidebar = () => {
     setOpenMobile(false);
@@ -57,9 +56,7 @@ export function AppSidebar() {
 
           {!collapsed && (
             <div className="min-w-0">
-              <div className="text-sm font-semibold truncate">
-                Alex OS
-              </div>
+              <div className="text-sm font-semibold truncate">Alex OS</div>
 
               <div className="text-[10px] uppercase tracking-widest text-sidebar-foreground/60">
                 Professional
@@ -71,33 +68,20 @@ export function AppSidebar() {
 
       <SidebarContent>
         {moduleGroups.map((group) => {
-          const items = modules.filter(
-            (module) => module.group === group
-          );
+          const items = modules.filter((module) => module.group === group);
 
           if (!items.length) return null;
 
           return (
             <SidebarGroup key={group}>
-              {!collapsed && (
-                <SidebarGroupLabel>
-                  {group}
-                </SidebarGroupLabel>
-              )}
+              {!collapsed && <SidebarGroupLabel>{group}</SidebarGroupLabel>}
 
               <SidebarGroupContent>
                 <SidebarMenu>
                   {items.map((item) => (
                     <SidebarMenuItem key={item.url}>
-                      <SidebarMenuButton
-                        asChild
-                        isActive={isActive(item.url)}
-                        tooltip={item.title}
-                      >
-                        <Link
-                          to={item.url}
-                          onClick={closeSidebar}
-                        >
+                      <SidebarMenuButton asChild isActive={isActive(item.url)} tooltip={item.title}>
+                        <Link to={item.url} onClick={closeSidebar}>
                           <item.icon className="h-4 w-4" />
                           <span>{item.title}</span>
                         </Link>
@@ -114,10 +98,7 @@ export function AppSidebar() {
       <SidebarFooter className="border-t border-sidebar-border">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton
-              onClick={signOut}
-              tooltip="Sign out"
-            >
+            <SidebarMenuButton onClick={signOut} tooltip="Sign out">
               <LogOut className="h-4 w-4" />
               <span>Sign out</span>
             </SidebarMenuButton>

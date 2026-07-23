@@ -115,10 +115,14 @@ export function TransactionFormDialog({ open, onOpenChange, mode, editing }: Pro
           <div className="space-y-1.5">
             <Label>{mode === "transfer" ? "From Account" : "Account"}</Label>
             <Select value={accountId} onValueChange={setAccountId}>
-              <SelectTrigger><SelectValue placeholder="Select account" /></SelectTrigger>
+              <SelectTrigger>
+                <SelectValue placeholder="Select account" />
+              </SelectTrigger>
               <SelectContent>
                 {accounts.map((a) => (
-                  <SelectItem key={a.id} value={a.id}>{a.name}</SelectItem>
+                  <SelectItem key={a.id} value={a.id}>
+                    {a.name}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -128,12 +132,16 @@ export function TransactionFormDialog({ open, onOpenChange, mode, editing }: Pro
             <div className="space-y-1.5">
               <Label>To Account</Label>
               <Select value={toAccountId} onValueChange={setToAccountId}>
-                <SelectTrigger><SelectValue placeholder="Select destination" /></SelectTrigger>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select destination" />
+                </SelectTrigger>
                 <SelectContent>
                   {accounts
                     .filter((a) => a.id !== accountId)
                     .map((a) => (
-                      <SelectItem key={a.id} value={a.id}>{a.name}</SelectItem>
+                      <SelectItem key={a.id} value={a.id}>
+                        {a.name}
+                      </SelectItem>
                     ))}
                 </SelectContent>
               </Select>
@@ -144,10 +152,14 @@ export function TransactionFormDialog({ open, onOpenChange, mode, editing }: Pro
             <div className="space-y-1.5">
               <Label>Source</Label>
               <Select value={source} onValueChange={setSource}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
                 <SelectContent>
                   {INCOME_SOURCES.map((s) => (
-                    <SelectItem key={s} value={s}>{s}</SelectItem>
+                    <SelectItem key={s} value={s}>
+                      {s}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -158,10 +170,14 @@ export function TransactionFormDialog({ open, onOpenChange, mode, editing }: Pro
             <div className="space-y-1.5">
               <Label>Category</Label>
               <Select value={category} onValueChange={setCategory}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
                 <SelectContent>
                   {EXPENSE_CATEGORIES.map((c) => (
-                    <SelectItem key={c} value={c}>{c}</SelectItem>
+                    <SelectItem key={c} value={c}>
+                      {c}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -187,7 +203,9 @@ export function TransactionFormDialog({ open, onOpenChange, mode, editing }: Pro
           </div>
         </div>
         <DialogFooter>
-          <Button variant="ghost" onClick={() => onOpenChange(false)}>Cancel</Button>
+          <Button variant="ghost" onClick={() => onOpenChange(false)}>
+            Cancel
+          </Button>
           <Button onClick={submit} disabled={save.isPending}>
             {save.isPending ? "Saving..." : "Save"}
           </Button>

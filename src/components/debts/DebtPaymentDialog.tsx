@@ -47,12 +47,20 @@ export function DebtPaymentDialog({ open, onOpenChange, debt }: Props) {
             </div>
             <div className="space-y-1.5">
               <Label>Payment Amount</Label>
-              <Input type="number" step="0.01" value={amount} onChange={(e) => setAmount(e.target.value)} autoFocus />
+              <Input
+                type="number"
+                step="0.01"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                autoFocus
+              />
             </div>
           </div>
         )}
         <DialogFooter>
-          <Button variant="ghost" onClick={() => onOpenChange(false)}>Cancel</Button>
+          <Button variant="ghost" onClick={() => onOpenChange(false)}>
+            Cancel
+          </Button>
           <Button onClick={submit} disabled={pay.isPending || !amount}>
             {pay.isPending ? "Saving..." : "Record Payment"}
           </Button>

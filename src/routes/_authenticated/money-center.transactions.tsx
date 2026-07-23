@@ -63,7 +63,19 @@ function TransactionsPage() {
 
   const exportCsv = () => {
     const rows = [
-      ["ID", "Date", "Time", "Type", "Account", "To Account", "Category/Source", "Description", "Reference", "Amount", "Status"],
+      [
+        "ID",
+        "Date",
+        "Time",
+        "Type",
+        "Account",
+        "To Account",
+        "Category/Source",
+        "Description",
+        "Reference",
+        "Amount",
+        "Status",
+      ],
       ...txs.map((t) => [
         t.id,
         formatDate(t.occurred_at),
@@ -109,7 +121,9 @@ function TransactionsPage() {
       <header className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Transactions</h1>
-          <p className="text-sm text-muted-foreground">Permanent, sortable record of every entry.</p>
+          <p className="text-sm text-muted-foreground">
+            Permanent, sortable record of every entry.
+          </p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" size="sm" onClick={exportCsv} className="rounded-lg">
@@ -134,7 +148,9 @@ function TransactionsPage() {
               />
             </div>
             <Select value={type} onValueChange={setType}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All types</SelectItem>
                 <SelectItem value="income">Income</SelectItem>
@@ -144,11 +160,15 @@ function TransactionsPage() {
               </SelectContent>
             </Select>
             <Select value={account} onValueChange={setAccount}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All accounts</SelectItem>
                 {accounts.map((a) => (
-                  <SelectItem key={a.id} value={a.id}>{a.name}</SelectItem>
+                  <SelectItem key={a.id} value={a.id}>
+                    {a.name}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -172,14 +192,20 @@ function TransactionsPage() {
               <TableBody>
                 {isLoading && (
                   <TableRow>
-                    <TableCell colSpan={9} className="text-center text-sm text-muted-foreground py-8">
+                    <TableCell
+                      colSpan={9}
+                      className="text-center text-sm text-muted-foreground py-8"
+                    >
                       Loading...
                     </TableCell>
                   </TableRow>
                 )}
                 {!isLoading && txs.length === 0 && (
                   <TableRow>
-                    <TableCell colSpan={9} className="text-center text-sm text-muted-foreground py-8">
+                    <TableCell
+                      colSpan={9}
+                      className="text-center text-sm text-muted-foreground py-8"
+                    >
                       No transactions match your filters.
                     </TableCell>
                   </TableRow>
@@ -198,18 +224,30 @@ function TransactionsPage() {
                     <TableCell className="text-sm">
                       {accountName[t.account_id] ?? "—"}
                       {t.transfer_account_id && (
-                        <span className="text-muted-foreground"> → {accountName[t.transfer_account_id]}</span>
+                        <span className="text-muted-foreground">
+                          {" "}
+                          → {accountName[t.transfer_account_id]}
+                        </span>
                       )}
                     </TableCell>
                     <TableCell className="text-sm">{t.category ?? t.source ?? "—"}</TableCell>
-                    <TableCell className="text-sm max-w-[220px] truncate">{t.description ?? "—"}</TableCell>
-                    <TableCell className="text-xs text-muted-foreground">{t.reference ?? "—"}</TableCell>
-                    <TableCell className={cn("text-right font-semibold whitespace-nowrap", typeTone(t.type))}>
+                    <TableCell className="text-sm max-w-[220px] truncate">
+                      {t.description ?? "—"}
+                    </TableCell>
+                    <TableCell className="text-xs text-muted-foreground">
+                      {t.reference ?? "—"}
+                    </TableCell>
+                    <TableCell
+                      className={cn("text-right font-semibold whitespace-nowrap", typeTone(t.type))}
+                    >
                       {t.type === "income" ? "+" : t.type === "expense" ? "-" : ""}
                       {formatMoney(t.amount)}
                     </TableCell>
                     <TableCell>
-                      <Badge variant={t.status === "posted" ? "default" : "secondary"} className="capitalize">
+                      <Badge
+                        variant={t.status === "posted" ? "default" : "secondary"}
+                        className="capitalize"
+                      >
                         {t.status}
                       </Badge>
                     </TableCell>

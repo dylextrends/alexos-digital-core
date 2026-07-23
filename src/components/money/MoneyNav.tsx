@@ -83,9 +83,7 @@ export function MoneyNav() {
     <div className="border-b border-border -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 sticky top-14 z-[5] bg-background/85 backdrop-blur">
       <nav className="flex gap-1 overflow-x-auto py-2 scrollbar-thin">
         {links.map((link) => {
-          const active = link.exact
-            ? path === link.to
-            : path.startsWith(link.to);
+          const active = link.exact ? path === link.to : path.startsWith(link.to);
 
           return (
             <Link

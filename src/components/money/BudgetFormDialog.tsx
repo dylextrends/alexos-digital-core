@@ -60,10 +60,14 @@ export function BudgetFormDialog({ open, onOpenChange, month, editing }: Props) 
           <div className="space-y-1.5">
             <Label>Category</Label>
             <Select value={category} onValueChange={setCategory} disabled={!!editing}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
               <SelectContent>
                 {EXPENSE_CATEGORIES.map((c) => (
-                  <SelectItem key={c} value={c}>{c}</SelectItem>
+                  <SelectItem key={c} value={c}>
+                    {c}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -80,7 +84,9 @@ export function BudgetFormDialog({ open, onOpenChange, month, editing }: Props) 
           </div>
         </div>
         <DialogFooter>
-          <Button variant="ghost" onClick={() => onOpenChange(false)}>Cancel</Button>
+          <Button variant="ghost" onClick={() => onOpenChange(false)}>
+            Cancel
+          </Button>
           <Button onClick={submit} disabled={save.isPending}>
             {save.isPending ? "Saving..." : "Save"}
           </Button>

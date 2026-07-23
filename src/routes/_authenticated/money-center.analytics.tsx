@@ -132,9 +132,15 @@ function AnalyticsPage() {
   }, [txs, accounts]);
 
   const expectedVsReceived = useMemo(() => {
-    const pending = expected.filter((e) => e.status === "pending").reduce((s, e) => s + Number(e.amount), 0);
-    const received = expected.filter((e) => e.status === "received").reduce((s, e) => s + Number(e.amount), 0);
-    const cancelled = expected.filter((e) => e.status === "cancelled").reduce((s, e) => s + Number(e.amount), 0);
+    const pending = expected
+      .filter((e) => e.status === "pending")
+      .reduce((s, e) => s + Number(e.amount), 0);
+    const received = expected
+      .filter((e) => e.status === "received")
+      .reduce((s, e) => s + Number(e.amount), 0);
+    const cancelled = expected
+      .filter((e) => e.status === "cancelled")
+      .reduce((s, e) => s + Number(e.amount), 0);
     return [
       { name: "Pending", value: pending },
       { name: "Received", value: received },
@@ -173,7 +179,13 @@ function AnalyticsPage() {
               <XAxis dataKey="month" fontSize={11} />
               <YAxis fontSize={11} />
               <Tooltip formatter={(v: number) => money(v)} />
-              <Line type="monotone" dataKey="cashflow" stroke={CHART_COLORS[0]} strokeWidth={2} dot={false} />
+              <Line
+                type="monotone"
+                dataKey="cashflow"
+                stroke={CHART_COLORS[0]}
+                strokeWidth={2}
+                dot={false}
+              />
             </LineChart>
           </ResponsiveContainer>
         </ChartCard>
@@ -258,7 +270,13 @@ function AnalyticsPage() {
                 <XAxis dataKey="date" fontSize={10} />
                 <YAxis fontSize={11} />
                 <Tooltip formatter={(v: number) => money(v)} />
-                <Line type="monotone" dataKey="value" stroke={CHART_COLORS[1]} strokeWidth={2} dot={false} />
+                <Line
+                  type="monotone"
+                  dataKey="value"
+                  stroke={CHART_COLORS[1]}
+                  strokeWidth={2}
+                  dot={false}
+                />
               </LineChart>
             </ResponsiveContainer>
           )}
@@ -287,7 +305,9 @@ function AnalyticsPage() {
 function ChartCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <Card className="rounded-2xl">
-      <CardHeader><CardTitle className="text-base">{title}</CardTitle></CardHeader>
+      <CardHeader>
+        <CardTitle className="text-base">{title}</CardTitle>
+      </CardHeader>
       <CardContent>{children}</CardContent>
     </Card>
   );

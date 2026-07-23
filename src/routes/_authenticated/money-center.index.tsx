@@ -2,12 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { QuickActions } from "@/components/money/QuickActions";
-import {
-  useAccountBalances,
-  useAccounts,
-  useExpected,
-  useTransactions,
-} from "@/lib/money/api";
+import { useAccountBalances, useAccounts, useExpected, useTransactions } from "@/lib/money/api";
 import { ACCOUNT_ICONS } from "@/lib/money/constants";
 import { formatDate, formatMoney, formatTime } from "@/lib/money/format";
 import {
@@ -50,9 +45,24 @@ function MoneyDashboard() {
 
   const kpis = [
     { label: "Total Available", value: total, icon: Wallet, tone: "text-primary" },
-    { label: "Income (Month)", value: incomeMonth, icon: TrendingUp, tone: "text-[color:var(--success)]" },
-    { label: "Expenses (Month)", value: expenseMonth, icon: TrendingDown, tone: "text-destructive" },
-    { label: "Cash Flow", value: cashFlow, icon: PiggyBank, tone: cashFlow >= 0 ? "text-[color:var(--success)]" : "text-destructive" },
+    {
+      label: "Income (Month)",
+      value: incomeMonth,
+      icon: TrendingUp,
+      tone: "text-[color:var(--success)]",
+    },
+    {
+      label: "Expenses (Month)",
+      value: expenseMonth,
+      icon: TrendingDown,
+      tone: "text-destructive",
+    },
+    {
+      label: "Cash Flow",
+      value: cashFlow,
+      icon: PiggyBank,
+      tone: cashFlow >= 0 ? "text-[color:var(--success)]" : "text-destructive",
+    },
     { label: "Expected (weighted)", value: expectedTotal, icon: Clock, tone: "text-amber-600" },
     { label: "Net Worth", value: total, icon: Wallet, tone: "text-primary" },
   ];
@@ -73,8 +83,14 @@ function MoneyDashboard() {
             </div>
             <div className="text-right">
               <div className="text-xs text-primary-foreground/70">This month</div>
-              <div className={cn("text-sm font-semibold", cashFlow >= 0 ? "text-[color:var(--success)]" : "text-red-200")}>
-                {cashFlow >= 0 ? "+" : ""}{formatMoney(cashFlow)}
+              <div
+                className={cn(
+                  "text-sm font-semibold",
+                  cashFlow >= 0 ? "text-[color:var(--success)]" : "text-red-200",
+                )}
+              >
+                {cashFlow >= 0 ? "+" : ""}
+                {formatMoney(cashFlow)}
               </div>
             </div>
           </div>

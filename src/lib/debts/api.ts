@@ -52,7 +52,10 @@ export function useSaveDebt() {
       const user_id = await uid();
       const payload = { ...input, user_id };
       const { error } = input.id
-        ? await supabase.from("debts").update(payload as never).eq("id", input.id)
+        ? await supabase
+            .from("debts")
+            .update(payload as never)
+            .eq("id", input.id)
         : await supabase.from("debts").insert(payload as never);
       if (error) throw error;
     },
@@ -89,10 +92,7 @@ export function useArchiveDebt() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase
-        .from("debts")
-        .update({ status: "archived" })
-        .eq("id", id);
+      const { error } = await supabase.from("debts").update({ status: "archived" }).eq("id", id);
       if (error) throw error;
     },
     onSuccess: () => {

@@ -71,7 +71,11 @@ export function AccountFormDialog({ open, onOpenChange, account }: Props) {
         <div className="space-y-4">
           <div className="space-y-1.5">
             <Label>Name</Label>
-            <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Equity Bank" />
+            <Input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="e.g. Equity Bank"
+            />
           </div>
 
           <div className="space-y-1.5">
@@ -102,10 +106,14 @@ export function AccountFormDialog({ open, onOpenChange, account }: Props) {
             <div className="space-y-1.5">
               <Label>Type</Label>
               <Select value={type} onValueChange={(v) => setType(v as Account["type"])}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
                 <SelectContent>
                   {ACCOUNT_TYPES.map((t) => (
-                    <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>
+                    <SelectItem key={t.value} value={t.value}>
+                      {t.label}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -113,10 +121,14 @@ export function AccountFormDialog({ open, onOpenChange, account }: Props) {
             <div className="space-y-1.5">
               <Label>Currency</Label>
               <Select value={currency} onValueChange={setCurrency}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
                 <SelectContent>
                   {CURRENCIES.map((c) => (
-                    <SelectItem key={c} value={c}>{c}</SelectItem>
+                    <SelectItem key={c} value={c}>
+                      {c}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -140,7 +152,9 @@ export function AccountFormDialog({ open, onOpenChange, account }: Props) {
           </div>
         </div>
         <DialogFooter>
-          <Button variant="ghost" onClick={() => onOpenChange(false)}>Cancel</Button>
+          <Button variant="ghost" onClick={() => onOpenChange(false)}>
+            Cancel
+          </Button>
           <Button onClick={submit} disabled={save.isPending}>
             {save.isPending ? "Saving..." : "Save Account"}
           </Button>

@@ -68,9 +68,7 @@ export function QuickActions() {
     <section className="space-y-4">
       <div>
         <h2 className="text-xl font-semibold">Quick Actions</h2>
-        <p className="text-sm text-muted-foreground">
-          Frequently used shortcuts across AlexOS.
-        </p>
+        <p className="text-sm text-muted-foreground">Frequently used shortcuts across AlexOS.</p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8">
@@ -84,9 +82,7 @@ export function QuickActions() {
                   <action.icon className="h-6 w-6" />
                 </div>
 
-                <span className="text-sm font-medium text-center">
-                  {action.title}
-                </span>
+                <span className="text-sm font-medium text-center">{action.title}</span>
               </CardContent>
             </Card>
           </Link>

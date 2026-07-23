@@ -93,10 +93,14 @@ export function ExpectedFormDialog({ open, onOpenChange, editing }: Props) {
           <div className="space-y-1.5">
             <Label>Source</Label>
             <Select value={source} onValueChange={setSource}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
               <SelectContent>
                 {EXPECTED_SOURCES.map((s) => (
-                  <SelectItem key={s} value={s}>{s}</SelectItem>
+                  <SelectItem key={s} value={s}>
+                    {s}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -126,7 +130,9 @@ export function ExpectedFormDialog({ open, onOpenChange, editing }: Props) {
           </div>
         </div>
         <DialogFooter>
-          <Button variant="ghost" onClick={() => onOpenChange(false)}>Cancel</Button>
+          <Button variant="ghost" onClick={() => onOpenChange(false)}>
+            Cancel
+          </Button>
           <Button onClick={submit} disabled={save.isPending}>
             {save.isPending ? "Saving..." : "Save"}
           </Button>

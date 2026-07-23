@@ -5,14 +5,16 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Plus, Pencil, Archive, CircleDollarSign, TrendingDown, AlertTriangle, Calendar } from "lucide-react";
 import {
-  useDebts,
-  useArchiveDebt,
-  debtRemaining,
-  debtProgress,
-  type Debt,
-} from "@/lib/debts/api";
+  Plus,
+  Pencil,
+  Archive,
+  CircleDollarSign,
+  TrendingDown,
+  AlertTriangle,
+  Calendar,
+} from "lucide-react";
+import { useDebts, useArchiveDebt, debtRemaining, debtProgress, type Debt } from "@/lib/debts/api";
 import { formatMoney, formatDate } from "@/lib/money/format";
 import { DebtFormDialog } from "@/components/debts/DebtFormDialog";
 import { DebtPaymentDialog } from "@/components/debts/DebtPaymentDialog";
@@ -43,9 +45,18 @@ function DebtsPage() {
   const monthlyObligation = active.reduce((s, d) => s + Number(d.minimum_payment), 0);
   const overallProgress = totalPrincipal > 0 ? (totalPaid / totalPrincipal) * 100 : 0;
 
-  const openNew = () => { setEditing(null); setFormOpen(true); };
-  const openEdit = (d: Debt) => { setEditing(d); setFormOpen(true); };
-  const openPay = (d: Debt) => { setPaying(d); setPayOpen(true); };
+  const openNew = () => {
+    setEditing(null);
+    setFormOpen(true);
+  };
+  const openEdit = (d: Debt) => {
+    setEditing(d);
+    setFormOpen(true);
+  };
+  const openPay = (d: Debt) => {
+    setPaying(d);
+    setPayOpen(true);
+  };
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
@@ -53,7 +64,9 @@ function DebtsPage() {
         <CardContent className="p-6 sm:p-8 space-y-4">
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div>
-              <div className="text-[11px] uppercase tracking-widest text-primary-foreground/70">Debt Management</div>
+              <div className="text-[11px] uppercase tracking-widest text-primary-foreground/70">
+                Debt Management
+              </div>
               <div className="mt-1 text-sm text-primary-foreground/70">Total Remaining</div>
               <div className="text-3xl sm:text-4xl font-semibold tracking-tight mt-1">
                 {formatMoney(totalRemaining)}
@@ -75,18 +88,42 @@ function DebtsPage() {
 
       <section className="grid gap-3 grid-cols-2 lg:grid-cols-4">
         {[
-          { label: "Total Debt", value: totalPrincipal, icon: TrendingDown, tone: "text-destructive" },
-          { label: "Total Paid", value: totalPaid, icon: CircleDollarSign, tone: "text-[color:var(--success)]" },
-          { label: "Remaining", value: totalRemaining, icon: AlertTriangle, tone: "text-amber-600" },
-          { label: "Monthly Obligation", value: monthlyObligation, icon: Calendar, tone: "text-primary" },
+          {
+            label: "Total Debt",
+            value: totalPrincipal,
+            icon: TrendingDown,
+            tone: "text-destructive",
+          },
+          {
+            label: "Total Paid",
+            value: totalPaid,
+            icon: CircleDollarSign,
+            tone: "text-[color:var(--success)]",
+          },
+          {
+            label: "Remaining",
+            value: totalRemaining,
+            icon: AlertTriangle,
+            tone: "text-amber-600",
+          },
+          {
+            label: "Monthly Obligation",
+            value: monthlyObligation,
+            icon: Calendar,
+            tone: "text-primary",
+          },
         ].map((k) => (
           <Card key={k.label} className="rounded-2xl">
             <CardHeader className="pb-1 flex flex-row items-center justify-between space-y-0">
-              <CardTitle className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">{k.label}</CardTitle>
+              <CardTitle className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
+                {k.label}
+              </CardTitle>
               <k.icon className={cn("h-4 w-4", k.tone)} />
             </CardHeader>
             <CardContent>
-              <div className="text-lg font-semibold tracking-tight truncate">{formatMoney(k.value)}</div>
+              <div className="text-lg font-semibold tracking-tight truncate">
+                {formatMoney(k.value)}
+              </div>
             </CardContent>
           </Card>
         ))}
@@ -99,12 +136,15 @@ function DebtsPage() {
         </div>
         {isLoading && (
           <div className="grid gap-3 grid-cols-1 lg:grid-cols-2">
-            {Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-40 rounded-2xl" />)}
+            {Array.from({ length: 4 }).map((_, i) => (
+              <Skeleton key={i} className="h-40 rounded-2xl" />
+            ))}
           </div>
         )}
         {!isLoading && debts.length === 0 && (
           <div className="rounded-2xl border border-dashed p-10 text-center text-sm text-muted-foreground">
-            No debts yet. Click <span className="font-medium text-foreground">New Debt</span> to add up to 6 debts you're currently tracking.
+            No debts yet. Click <span className="font-medium text-foreground">New Debt</span> to add
+            up to 6 debts you're currently tracking.
           </div>
         )}
         <div className="grid gap-3 grid-cols-1 lg:grid-cols-2">
@@ -118,11 +158,16 @@ function DebtsPage() {
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
                         <div className="font-medium truncate">{d.name}</div>
-                        <Badge variant="outline" className={cn("capitalize text-[10px]", priorityTone[d.priority])}>
+                        <Badge
+                          variant="outline"
+                          className={cn("capitalize text-[10px]", priorityTone[d.priority])}
+                        >
                           {d.priority}
                         </Badge>
                         {d.status !== "active" && (
-                          <Badge variant="secondary" className="capitalize text-[10px]">{d.status}</Badge>
+                          <Badge variant="secondary" className="capitalize text-[10px]">
+                            {d.status}
+                          </Badge>
                         )}
                       </div>
                       <div className="text-xs text-muted-foreground mt-0.5">
@@ -134,7 +179,12 @@ function DebtsPage() {
                       <Button size="icon" variant="ghost" onClick={() => openEdit(d)} title="Edit">
                         <Pencil className="h-4 w-4" />
                       </Button>
-                      <Button size="icon" variant="ghost" onClick={() => archive.mutate(d.id)} title="Archive">
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        onClick={() => archive.mutate(d.id)}
+                        title="Archive"
+                      >
                         <Archive className="h-4 w-4" />
                       </Button>
                     </div>
@@ -142,15 +192,23 @@ function DebtsPage() {
 
                   <div className="grid grid-cols-3 gap-3 text-sm">
                     <div>
-                      <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Principal</div>
+                      <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
+                        Principal
+                      </div>
                       <div className="font-semibold">{formatMoney(d.principal)}</div>
                     </div>
                     <div>
-                      <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Paid</div>
-                      <div className="font-semibold text-[color:var(--success)]">{formatMoney(d.amount_paid)}</div>
+                      <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
+                        Paid
+                      </div>
+                      <div className="font-semibold text-[color:var(--success)]">
+                        {formatMoney(d.amount_paid)}
+                      </div>
                     </div>
                     <div>
-                      <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Remaining</div>
+                      <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
+                        Remaining
+                      </div>
                       <div className="font-semibold text-destructive">{formatMoney(remaining)}</div>
                     </div>
                   </div>
@@ -165,7 +223,10 @@ function DebtsPage() {
 
                   <div className="flex items-center justify-between pt-1">
                     <div className="text-xs text-muted-foreground">
-                      Min: <span className="font-medium text-foreground">{formatMoney(d.minimum_payment)}</span>
+                      Min:{" "}
+                      <span className="font-medium text-foreground">
+                        {formatMoney(d.minimum_payment)}
+                      </span>
                     </div>
                     <Button size="sm" onClick={() => openPay(d)} disabled={d.status !== "active"}>
                       <CircleDollarSign className="h-4 w-4 mr-1" /> Pay

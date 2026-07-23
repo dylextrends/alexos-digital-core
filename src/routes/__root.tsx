@@ -85,17 +85,36 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Alex OS Professional is a premium personal and business operating system for banking, sales, marketing, goals and operations.",
       },
-      { property: "og:title", content: "Alex OS Professional — Personal & Business Operating System" },
+      {
+        property: "og:title",
+        content: "Alex OS Professional — Personal & Business Operating System",
+      },
       {
         property: "og:description",
-        content: "Alex OS Professional is a premium personal and business operating system for banking, sales, marketing, goals and operations.",
+        content:
+          "Alex OS Professional is a premium personal and business operating system for banking, sales, marketing, goals and operations.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Alex OS Professional — Personal & Business Operating System" },
-      { name: "twitter:description", content: "Alex OS Professional is a premium personal and business operating system for banking, sales, marketing, goals and operations." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/8AgQfbMhT6OfaUQEcPk0zxD57P82/social-images/social-1784566793609-image_49e48eb1.webp" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/8AgQfbMhT6OfaUQEcPk0zxD57P82/social-images/social-1784566793609-image_49e48eb1.webp" },
+      {
+        name: "twitter:title",
+        content: "Alex OS Professional — Personal & Business Operating System",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "Alex OS Professional is a premium personal and business operating system for banking, sales, marketing, goals and operations.",
+      },
+      {
+        property: "og:image",
+        content:
+          "https://storage.googleapis.com/gpt-engineer-file-uploads/8AgQfbMhT6OfaUQEcPk0zxD57P82/social-images/social-1784566793609-image_49e48eb1.webp",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://storage.googleapis.com/gpt-engineer-file-uploads/8AgQfbMhT6OfaUQEcPk0zxD57P82/social-images/social-1784566793609-image_49e48eb1.webp",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

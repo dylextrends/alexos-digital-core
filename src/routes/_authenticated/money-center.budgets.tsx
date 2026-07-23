@@ -5,12 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import {
-  useArchiveBudget,
-  useBudgets,
-  useTransactions,
-  type Budget,
-} from "@/lib/money/api";
+import { useArchiveBudget, useBudgets, useTransactions, type Budget } from "@/lib/money/api";
 import { formatMoney, monthKey, monthLabel } from "@/lib/money/format";
 import { BudgetFormDialog } from "@/components/money/BudgetFormDialog";
 import { ChevronLeft, ChevronRight, Pencil, Plus, Trash2 } from "lucide-react";
@@ -100,7 +95,9 @@ function BudgetsPage() {
       <div className="grid gap-3 sm:grid-cols-3">
         <Card className="rounded-2xl">
           <CardHeader className="pb-1">
-            <CardTitle className="text-[10px] uppercase tracking-widest text-muted-foreground">Budgeted</CardTitle>
+            <CardTitle className="text-[10px] uppercase tracking-widest text-muted-foreground">
+              Budgeted
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-xl font-semibold">{formatMoney(totals.budget)}</div>
@@ -108,18 +105,29 @@ function BudgetsPage() {
         </Card>
         <Card className="rounded-2xl">
           <CardHeader className="pb-1">
-            <CardTitle className="text-[10px] uppercase tracking-widest text-muted-foreground">Spent</CardTitle>
+            <CardTitle className="text-[10px] uppercase tracking-widest text-muted-foreground">
+              Spent
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-semibold text-destructive">{formatMoney(totals.spent)}</div>
+            <div className="text-xl font-semibold text-destructive">
+              {formatMoney(totals.spent)}
+            </div>
           </CardContent>
         </Card>
         <Card className="rounded-2xl">
           <CardHeader className="pb-1">
-            <CardTitle className="text-[10px] uppercase tracking-widest text-muted-foreground">Remaining</CardTitle>
+            <CardTitle className="text-[10px] uppercase tracking-widest text-muted-foreground">
+              Remaining
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className={cn("text-xl font-semibold", totals.remaining >= 0 ? "text-[color:var(--success)]" : "text-destructive")}>
+            <div
+              className={cn(
+                "text-xl font-semibold",
+                totals.remaining >= 0 ? "text-[color:var(--success)]" : "text-destructive",
+              )}
+            >
               {formatMoney(totals.remaining)}
             </div>
           </CardContent>
@@ -153,14 +161,29 @@ function BudgetsPage() {
                 </div>
                 <Progress value={pct} className={cn("h-2", over && "[&>div]:bg-destructive")} />
                 <div className="flex items-center justify-between">
-                  <div className={cn("text-sm font-medium", remaining >= 0 ? "text-[color:var(--success)]" : "text-destructive")}>
+                  <div
+                    className={cn(
+                      "text-sm font-medium",
+                      remaining >= 0 ? "text-[color:var(--success)]" : "text-destructive",
+                    )}
+                  >
                     {remaining >= 0 ? "Remaining" : "Over"}: {formatMoney(Math.abs(remaining))}
                   </div>
                   <div className="flex gap-1">
-                    <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => openEdit(b)}>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8"
+                      onClick={() => openEdit(b)}
+                    >
                       <Pencil className="h-3.5 w-3.5" />
                     </Button>
-                    <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => archive.mutate(b.id)}>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8"
+                      onClick={() => archive.mutate(b.id)}
+                    >
                       <Trash2 className="h-3.5 w-3.5 text-destructive" />
                     </Button>
                   </div>

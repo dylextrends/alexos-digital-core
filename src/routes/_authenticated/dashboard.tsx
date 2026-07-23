@@ -36,9 +36,7 @@ function Dashboard() {
       <section className="space-y-4">
         <div>
           <h2 className="text-xl font-semibold tracking-tight">Money Snapshot</h2>
-          <p className="text-sm text-muted-foreground">
-            Your financial position at a glance.
-          </p>
+          <p className="text-sm text-muted-foreground">Your financial position at a glance.</p>
         </div>
         <MoneySnapshot />
       </section>

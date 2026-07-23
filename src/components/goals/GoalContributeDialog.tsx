@@ -62,14 +62,26 @@ export function GoalContributeDialog({ open, onOpenChange, goal }: Props) {
             </div>
             <div className="space-y-1.5">
               <Label>Amount</Label>
-              <Input type="number" step="0.01" value={amount} onChange={(e) => setAmount(e.target.value)} autoFocus />
+              <Input
+                type="number"
+                step="0.01"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                autoFocus
+              />
             </div>
             <div className="space-y-1.5">
               <Label>From Account (optional)</Label>
               <Select value={accountId} onValueChange={setAccountId}>
-                <SelectTrigger><SelectValue placeholder="Choose account" /></SelectTrigger>
+                <SelectTrigger>
+                  <SelectValue placeholder="Choose account" />
+                </SelectTrigger>
                 <SelectContent>
-                  {accounts.map((a) => <SelectItem key={a.id} value={a.id}>{a.name}</SelectItem>)}
+                  {accounts.map((a) => (
+                    <SelectItem key={a.id} value={a.id}>
+                      {a.name}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -80,7 +92,9 @@ export function GoalContributeDialog({ open, onOpenChange, goal }: Props) {
           </div>
         )}
         <DialogFooter>
-          <Button variant="ghost" onClick={() => onOpenChange(false)}>Cancel</Button>
+          <Button variant="ghost" onClick={() => onOpenChange(false)}>
+            Cancel
+          </Button>
           <Button onClick={submit} disabled={contribute.isPending || !amount}>
             {contribute.isPending ? "Saving..." : "Add Contribution"}
           </Button>

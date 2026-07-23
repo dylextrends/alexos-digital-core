@@ -17,7 +17,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Car, Shield, GraduationCap, Home, Plane, Heart, Target, Briefcase, PiggyBank, type LucideIcon } from "lucide-react";
+import {
+  Car,
+  Shield,
+  GraduationCap,
+  Home,
+  Plane,
+  Heart,
+  Target,
+  Briefcase,
+  PiggyBank,
+  type LucideIcon,
+} from "lucide-react";
 import { useSaveGoal, type Goal } from "@/lib/goals/api";
 import { cn } from "@/lib/utils";
 
@@ -33,7 +44,16 @@ export const GOAL_ICONS: Record<string, LucideIcon> = {
   piggy: PiggyBank,
 };
 
-const CATEGORIES = ["Savings", "Emergency", "Vehicle", "Education", "Home", "Travel", "Business", "Other"];
+const CATEGORIES = [
+  "Savings",
+  "Emergency",
+  "Vehicle",
+  "Education",
+  "Home",
+  "Travel",
+  "Business",
+  "Other",
+];
 
 interface Props {
   open: boolean;
@@ -87,7 +107,11 @@ export function GoalFormDialog({ open, onOpenChange, goal }: Props) {
         <div className="space-y-4">
           <div className="space-y-1.5">
             <Label>Goal Name</Label>
-            <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Audi Fund" />
+            <Input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="e.g. Audi Fund"
+            />
           </div>
           <div className="space-y-1.5">
             <Label>Icon</Label>
@@ -113,16 +137,24 @@ export function GoalFormDialog({ open, onOpenChange, goal }: Props) {
             <div className="space-y-1.5">
               <Label>Category</Label>
               <Select value={category} onValueChange={setCategory}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
                 <SelectContent>
-                  {CATEGORIES.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+                  {CATEGORIES.map((c) => (
+                    <SelectItem key={c} value={c}>
+                      {c}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-1.5">
               <Label>Status</Label>
               <Select value={status} onValueChange={(v) => setStatus(v as Goal["status"])}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="active">Active</SelectItem>
                   <SelectItem value="paused">Paused</SelectItem>
@@ -133,11 +165,20 @@ export function GoalFormDialog({ open, onOpenChange, goal }: Props) {
             </div>
             <div className="space-y-1.5">
               <Label>Target Amount</Label>
-              <Input type="number" step="0.01" value={target} onChange={(e) => setTarget(e.target.value)} />
+              <Input
+                type="number"
+                step="0.01"
+                value={target}
+                onChange={(e) => setTarget(e.target.value)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label>Target Date</Label>
-              <Input type="date" value={targetDate} onChange={(e) => setTargetDate(e.target.value)} />
+              <Input
+                type="date"
+                value={targetDate}
+                onChange={(e) => setTargetDate(e.target.value)}
+              />
             </div>
           </div>
           <div className="space-y-1.5">
@@ -146,7 +187,9 @@ export function GoalFormDialog({ open, onOpenChange, goal }: Props) {
           </div>
         </div>
         <DialogFooter>
-          <Button variant="ghost" onClick={() => onOpenChange(false)}>Cancel</Button>
+          <Button variant="ghost" onClick={() => onOpenChange(false)}>
+            Cancel
+          </Button>
           <Button onClick={submit} disabled={save.isPending}>
             {save.isPending ? "Saving..." : "Save Goal"}
           </Button>

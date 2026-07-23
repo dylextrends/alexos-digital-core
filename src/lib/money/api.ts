@@ -109,7 +109,10 @@ export function useSaveAccount() {
       const user_id = await uid();
       const payload = { ...input, user_id };
       const { error } = input.id
-        ? await supabase.from("accounts").update(payload as never).eq("id", input.id)
+        ? await supabase
+            .from("accounts")
+            .update(payload as never)
+            .eq("id", input.id)
         : await supabase.from("accounts").insert(payload as never);
       if (error) throw error;
     },
@@ -183,7 +186,10 @@ export function useSaveTransaction() {
       const user_id = await uid();
       const payload = { ...input, user_id };
       if (input.id) {
-        const { error } = await supabase.from("transactions").update(payload as never).eq("id", input.id);
+        const { error } = await supabase
+          .from("transactions")
+          .update(payload as never)
+          .eq("id", input.id);
         if (error) throw error;
         return input.id;
       }
@@ -316,7 +322,10 @@ export function useSaveExpected() {
       const user_id = await uid();
       const payload = { ...input, user_id };
       const { error } = input.id
-        ? await supabase.from("expected_money").update(payload as never).eq("id", input.id)
+        ? await supabase
+            .from("expected_money")
+            .update(payload as never)
+            .eq("id", input.id)
         : await supabase.from("expected_money").insert(payload as never);
       if (error) throw error;
     },

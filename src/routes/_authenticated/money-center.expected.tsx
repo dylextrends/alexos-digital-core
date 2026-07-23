@@ -94,7 +94,11 @@ function ExpectedPage() {
       <TableCell>
         <Badge
           variant={
-            e.status === "received" ? "default" : e.status === "cancelled" ? "destructive" : "secondary"
+            e.status === "received"
+              ? "default"
+              : e.status === "cancelled"
+                ? "destructive"
+                : "secondary"
           }
           className="capitalize"
         >
@@ -146,7 +150,9 @@ function ExpectedPage() {
       <div className="grid gap-3 sm:grid-cols-3">
         <Card className="rounded-2xl">
           <CardHeader className="pb-1">
-            <CardTitle className="text-[10px] uppercase tracking-widest text-muted-foreground">Pending Total</CardTitle>
+            <CardTitle className="text-[10px] uppercase tracking-widest text-muted-foreground">
+              Pending Total
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-xl font-semibold text-amber-600">{formatMoney(pendingTotal)}</div>
@@ -154,7 +160,9 @@ function ExpectedPage() {
         </Card>
         <Card className="rounded-2xl">
           <CardHeader className="pb-1">
-            <CardTitle className="text-[10px] uppercase tracking-widest text-muted-foreground">Weighted (by %)</CardTitle>
+            <CardTitle className="text-[10px] uppercase tracking-widest text-muted-foreground">
+              Weighted (by %)
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-xl font-semibold text-primary">{formatMoney(weightedTotal)}</div>
@@ -162,7 +170,9 @@ function ExpectedPage() {
         </Card>
         <Card className="rounded-2xl">
           <CardHeader className="pb-1">
-            <CardTitle className="text-[10px] uppercase tracking-widest text-muted-foreground">Received</CardTitle>
+            <CardTitle className="text-[10px] uppercase tracking-widest text-muted-foreground">
+              Received
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-xl font-semibold text-[color:var(--success)]">
@@ -173,7 +183,9 @@ function ExpectedPage() {
       </div>
 
       <Card className="rounded-2xl">
-        <CardHeader><CardTitle className="text-base">All Expected</CardTitle></CardHeader>
+        <CardHeader>
+          <CardTitle className="text-base">All Expected</CardTitle>
+        </CardHeader>
         <CardContent className={cn("overflow-x-auto")}>
           <Table>
             <TableHeader>
@@ -220,17 +232,23 @@ function ExpectedPage() {
             <div className="space-y-1.5">
               <Label>Destination account</Label>
               <Select value={receiveAccount} onValueChange={setReceiveAccount}>
-                <SelectTrigger><SelectValue placeholder="Select account" /></SelectTrigger>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select account" />
+                </SelectTrigger>
                 <SelectContent>
                   {accounts.map((a) => (
-                    <SelectItem key={a.id} value={a.id}>{a.name}</SelectItem>
+                    <SelectItem key={a.id} value={a.id}>
+                      {a.name}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
           </div>
           <DialogFooter>
-            <Button variant="ghost" onClick={() => setReceiveOpen(false)}>Cancel</Button>
+            <Button variant="ghost" onClick={() => setReceiveOpen(false)}>
+              Cancel
+            </Button>
             <Button onClick={confirmReceive} disabled={markReceived.isPending || !receiveAccount}>
               {markReceived.isPending ? "Saving..." : "Confirm"}
             </Button>

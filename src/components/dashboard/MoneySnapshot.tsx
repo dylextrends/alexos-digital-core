@@ -1,11 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  TrendingDown,
-  TrendingUp,
-  Wallet,
-  Landmark,
-  ArrowDownCircle,
-} from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { TrendingDown, TrendingUp, Wallet, Landmark, ArrowDownCircle } from "lucide-react";
 
 import { useAccountBalances, useTransactions } from "@/lib/money/api";
 import { useDebts, debtRemaining } from "@/lib/debts/api";
@@ -16,32 +10,13 @@ export default function MoneySnapshot() {
   const { data: transactions = [] } = useTransactions();
   const { data: debts = [] } = useDebts();
 
-  // ==========================
-  // CASH AVAILABLE
-  // ==========================
-
-  const cashAvailable = balances.reduce(
-    (total, account) => total + Number(account.balance),
-    0
-  );
-
-  // ==========================
-  // TOTAL DEBT
-  // ==========================
+  const cashAvailable = balances.reduce((total, account) => total + Number(account.balance), 0);
 
   const totalDebt = debts
     .filter((d) => d.status !== "paid")
     .reduce((sum, debt) => sum + debtRemaining(debt), 0);
 
-  // ==========================
-  // NET WORTH
-  // ==========================
-
   const netWorth = cashAvailable - totalDebt;
-
-  // ==========================
-  // MONTHLY INCOME / EXPENSES
-  // ==========================
 
   const currentMonth = new Date().getMonth();
   const currentYear = new Date().getFullYear();
@@ -69,65 +44,89 @@ export default function MoneySnapshot() {
       title: "Cash Available",
       value: formatMoney(cashAvailable),
       icon: Wallet,
-      color: "text-blue-600",
-      trend: "Across All Accounts",
+      gradient: "from-blue-500 to-cyan-500",
+      bg: "bg-blue-50",
+      iconBg: "bg-blue-100",
+      iconColor: "text-blue-700",
+      subtitle: "Across All Accounts",
     },
     {
       title: "Net Worth",
       value: formatMoney(netWorth),
       icon: Landmark,
-      color: netWorth >= 0 ? "text-violet-600" : "text-red-600",
-      trend: "Cash - Debt",
+      gradient: netWorth >= 0 ? "from-violet-500 to-purple-600" : "from-red-500 to-rose-600",
+      bg: netWorth >= 0 ? "bg-violet-50" : "bg-red-50",
+      iconBg: netWorth >= 0 ? "bg-violet-100" : "bg-red-100",
+      iconColor: netWorth >= 0 ? "text-violet-700" : "text-red-700",
+      subtitle: "Cash - Debt",
     },
     {
       title: "Income",
       value: formatMoney(income),
       icon: TrendingUp,
-      color: "text-green-600",
-      trend: "This Month",
+      gradient: "from-green-500 to-emerald-600",
+      bg: "bg-green-50",
+      iconBg: "bg-green-100",
+      iconColor: "text-green-700",
+      subtitle: "This Month",
     },
     {
       title: "Expenses",
       value: formatMoney(expenses),
       icon: TrendingDown,
-      color: "text-red-600",
-      trend: "This Month",
+      gradient: "from-orange-500 to-red-500",
+      bg: "bg-orange-50",
+      iconBg: "bg-orange-100",
+      iconColor: "text-orange-700",
+      subtitle: "This Month",
     },
     {
       title: "Outstanding Debt",
       value: formatMoney(totalDebt),
       icon: ArrowDownCircle,
-      color: "text-orange-600",
-      trend: `${debts.filter((d) => d.status !== "paid").length} Active Debt(s)`,
+      gradient: "from-amber-500 to-orange-600",
+      bg: "bg-amber-50",
+      iconBg: "bg-amber-100",
+      iconColor: "text-amber-700",
+      subtitle: `${debts.filter((d) => d.status !== "paid").length} Active Debt(s)`,
     },
   ];
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+    <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-5">
       {cards.map((card) => {
         const Icon = card.icon;
 
         return (
           <Card
             key={card.title}
-            className="rounded-2xl hover:shadow-lg transition-all duration-300"
+            className={`overflow-hidden border-0 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 ${card.bg}`}
           >
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">
-                {card.title}
-              </CardTitle>
+            <div className={`h-2 w-full bg-gradient-to-r ${card.gradient}`} />
 
-              <Icon className={`h-5 w-5 ${card.color}`} />
-            </CardHeader>
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-5">
+                <div>
+                  <p className="text-sm text-muted-foreground">{card.title}</p>
 
-            <CardContent>
-              <div className={`text-2xl font-bold ${card.color}`}>
-                {card.value}
+                  <h2 className="mt-2 text-2xl font-bold tracking-tight">{card.value}</h2>
+                </div>
+
+                <div
+                  className={`h-14 w-14 rounded-2xl ${card.iconBg} flex items-center justify-center`}
+                >
+                  <Icon className={`h-7 w-7 ${card.iconColor}`} />
+                </div>
               </div>
 
-              <p className="text-xs text-muted-foreground mt-2">
-                {card.trend}
-              </p>
+              <div className="h-1.5 rounded-full bg-slate-200 overflow-hidden">
+                <div
+                  className={`h-full bg-gradient-to-r ${card.gradient}`}
+                  style={{ width: "70%" }}
+                />
+              </div>
+
+              <p className="mt-4 text-xs font-medium text-muted-foreground">{card.subtitle}</p>
             </CardContent>
           </Card>
         );

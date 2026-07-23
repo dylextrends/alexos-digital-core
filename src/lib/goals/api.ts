@@ -94,7 +94,10 @@ export function useSaveGoal() {
       const user_id = await uid();
       const payload = { ...input, user_id };
       const { error } = input.id
-        ? await supabase.from("goals").update(payload as never).eq("id", input.id)
+        ? await supabase
+            .from("goals")
+            .update(payload as never)
+            .eq("id", input.id)
         : await supabase.from("goals").insert(payload as never);
       if (error) throw error;
     },
@@ -140,10 +143,7 @@ export function useArchiveGoal() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase
-        .from("goals")
-        .update({ status: "archived" })
-        .eq("id", id);
+      const { error } = await supabase.from("goals").update({ status: "archived" }).eq("id", id);
       if (error) throw error;
     },
     onSuccess: () => {

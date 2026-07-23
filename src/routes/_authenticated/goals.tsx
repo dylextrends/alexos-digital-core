@@ -31,9 +31,18 @@ function GoalsPage() {
   const achieved = goals.filter((g) => g.status === "achieved").length;
   const overall = totalTarget > 0 ? (totalSaved / totalTarget) * 100 : 0;
 
-  const openNew = () => { setEditing(null); setFormOpen(true); };
-  const openEdit = (g: Goal) => { setEditing(g); setFormOpen(true); };
-  const openContribute = (g: Goal) => { setContributing(g); setContribOpen(true); };
+  const openNew = () => {
+    setEditing(null);
+    setFormOpen(true);
+  };
+  const openEdit = (g: Goal) => {
+    setEditing(g);
+    setFormOpen(true);
+  };
+  const openContribute = (g: Goal) => {
+    setContributing(g);
+    setContribOpen(true);
+  };
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
@@ -41,7 +50,9 @@ function GoalsPage() {
         <CardContent className="p-6 sm:p-8 space-y-4">
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div>
-              <div className="text-[11px] uppercase tracking-widest text-primary-foreground/70">Goals</div>
+              <div className="text-[11px] uppercase tracking-widest text-primary-foreground/70">
+                Goals
+              </div>
               <div className="mt-1 text-sm text-primary-foreground/70">Total Saved</div>
               <div className="text-3xl sm:text-4xl font-semibold tracking-tight mt-1">
                 {formatMoney(totalSaved)}
@@ -66,13 +77,30 @@ function GoalsPage() {
 
       <section className="grid gap-3 grid-cols-3">
         {[
-          { label: "Active Goals", value: goals.filter(g => g.status === "active").length, icon: Target, tone: "text-primary" },
-          { label: "Achieved", value: achieved, icon: CheckCircle2, tone: "text-[color:var(--success)]" },
-          { label: "In Progress", value: `${overall.toFixed(0)}%`, icon: TrendingUp, tone: "text-amber-600" },
+          {
+            label: "Active Goals",
+            value: goals.filter((g) => g.status === "active").length,
+            icon: Target,
+            tone: "text-primary",
+          },
+          {
+            label: "Achieved",
+            value: achieved,
+            icon: CheckCircle2,
+            tone: "text-[color:var(--success)]",
+          },
+          {
+            label: "In Progress",
+            value: `${overall.toFixed(0)}%`,
+            icon: TrendingUp,
+            tone: "text-amber-600",
+          },
         ].map((k) => (
           <Card key={k.label} className="rounded-2xl">
             <CardHeader className="pb-1 flex flex-row items-center justify-between space-y-0">
-              <CardTitle className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">{k.label}</CardTitle>
+              <CardTitle className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
+                {k.label}
+              </CardTitle>
               <k.icon className={cn("h-4 w-4", k.tone)} />
             </CardHeader>
             <CardContent>
@@ -86,12 +114,15 @@ function GoalsPage() {
         <h2 className="text-lg font-semibold tracking-tight">Your Goals</h2>
         {isLoading && (
           <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-            {Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-48 rounded-2xl" />)}
+            {Array.from({ length: 3 }).map((_, i) => (
+              <Skeleton key={i} className="h-48 rounded-2xl" />
+            ))}
           </div>
         )}
         {!isLoading && goals.length === 0 && (
           <div className="rounded-2xl border border-dashed p-10 text-center text-sm text-muted-foreground">
-            No goals yet. Add your first goal — Audi Fund, Emergency Fund, School Fees, or anything else.
+            No goals yet. Add your first goal — Audi Fund, Emergency Fund, School Fees, or anything
+            else.
           </div>
         )}
         <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
@@ -113,13 +144,21 @@ function GoalsPage() {
                         <div className="font-medium truncate">{g.name}</div>
                         <div className="text-xs text-muted-foreground flex gap-2 items-center">
                           <span>{g.category ?? "—"}</span>
-                          {g.status !== "active" && <Badge variant="secondary" className="capitalize text-[10px]">{g.status}</Badge>}
+                          {g.status !== "active" && (
+                            <Badge variant="secondary" className="capitalize text-[10px]">
+                              {g.status}
+                            </Badge>
+                          )}
                         </div>
                       </div>
                     </div>
                     <div className="flex gap-1">
-                      <Button size="icon" variant="ghost" onClick={() => openEdit(g)}><Pencil className="h-4 w-4" /></Button>
-                      <Button size="icon" variant="ghost" onClick={() => archive.mutate(g.id)}><Archive className="h-4 w-4" /></Button>
+                      <Button size="icon" variant="ghost" onClick={() => openEdit(g)}>
+                        <Pencil className="h-4 w-4" />
+                      </Button>
+                      <Button size="icon" variant="ghost" onClick={() => archive.mutate(g.id)}>
+                        <Archive className="h-4 w-4" />
+                      </Button>
                     </div>
                   </div>
 
@@ -136,10 +175,17 @@ function GoalsPage() {
                   </div>
 
                   {g.target_date && (
-                    <div className="text-xs text-muted-foreground">Target: {formatDate(g.target_date)}</div>
+                    <div className="text-xs text-muted-foreground">
+                      Target: {formatDate(g.target_date)}
+                    </div>
                   )}
 
-                  <Button size="sm" className="w-full" onClick={() => openContribute(g)} disabled={g.status !== "active"}>
+                  <Button
+                    size="sm"
+                    className="w-full"
+                    onClick={() => openContribute(g)}
+                    disabled={g.status !== "active"}
+                  >
                     <Plus className="h-4 w-4 mr-1" /> Add Contribution
                   </Button>
                 </CardContent>

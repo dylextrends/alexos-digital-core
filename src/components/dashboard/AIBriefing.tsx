@@ -1,11 +1,4 @@
-import {
-  Brain,
-  Calendar,
-  CircleDollarSign,
-  TrendingDown,
-  TrendingUp,
-  Target,
-} from "lucide-react";
+import { Brain, Calendar, CircleDollarSign, TrendingDown, TrendingUp, Target } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useExpected, useTransactions } from "@/lib/money/api";
@@ -19,11 +12,7 @@ export function AIBriefing() {
   const hour = now.getHours();
 
   const greeting =
-    hour < 12
-      ? "🌅 Good Morning"
-      : hour < 17
-      ? "☀️ Good Afternoon"
-      : "🌙 Good Evening";
+    hour < 12 ? "🌅 Good Morning" : hour < 17 ? "☀️ Good Afternoon" : "🌙 Good Evening";
 
   const currentMonth = now.getMonth();
   const currentYear = now.getFullYear();
@@ -32,9 +21,7 @@ export function AIBriefing() {
     const d = new Date(t.occurred_at);
 
     return (
-      d.getMonth() === currentMonth &&
-      d.getFullYear() === currentYear &&
-      t.status === "posted"
+      d.getMonth() === currentMonth && d.getFullYear() === currentYear && t.status === "posted"
     );
   });
 
@@ -46,19 +33,12 @@ export function AIBriefing() {
     .filter((t) => t.type === "expense")
     .reduce((sum, t) => sum + Number(t.amount), 0);
 
-  const expectedCash = expected.reduce(
-    (sum, item) => sum + Number(item.amount),
-    0
-  );
+  const expectedCash = expected.reduce((sum, item) => sum + Number(item.amount), 0);
 
   const cashFlow = income - expenses;
 
   const transport = monthTransactions
-    .filter(
-      (t) =>
-        t.type === "expense" &&
-        (t.category ?? "").toLowerCase().includes("transport")
-    )
+    .filter((t) => t.type === "expense" && (t.category ?? "").toLowerCase().includes("transport"))
     .reduce((sum, t) => sum + Number(t.amount), 0);
 
   const dueTomorrow = expected.filter((item) => {
@@ -80,31 +60,23 @@ export function AIBriefing() {
     insights.push("✅ Your cash flow is positive this month.");
   } else {
     insights.push(
-      `⚠️ You have spent ${formatMoney(
-        Math.abs(cashFlow)
-      )} more than you've earned this month.`
+      `⚠️ You have spent ${formatMoney(Math.abs(cashFlow))} more than you've earned this month.`,
     );
   }
 
   if (transport > 0) {
-    insights.push(
-      `🚗 Transport expenses this month: ${formatMoney(transport)}.`
-    );
+    insights.push(`🚗 Transport expenses this month: ${formatMoney(transport)}.`);
   }
 
   if (expectedCash > 0) {
     insights.push(
-      `💰 Follow up on ${formatMoney(
-        expectedCash
-      )} in expected income to improve cash flow.`
+      `💰 Follow up on ${formatMoney(expectedCash)} in expected income to improve cash flow.`,
     );
   }
 
   if (dueTomorrow > 0) {
     insights.push(
-      `📅 You have ${dueTomorrow} expected payment${
-        dueTomorrow > 1 ? "s" : ""
-      } due tomorrow.`
+      `📅 You have ${dueTomorrow} expected payment${dueTomorrow > 1 ? "s" : ""} due tomorrow.`,
     );
   }
 
@@ -122,17 +94,13 @@ export function AIBriefing() {
         <div>
           <CardTitle>AlexOS AI Briefing</CardTitle>
 
-          <p className="text-sm text-muted-foreground">
-            Your intelligent business assistant.
-          </p>
+          <p className="text-sm text-muted-foreground">Your intelligent business assistant.</p>
         </div>
       </CardHeader>
 
       <CardContent className="space-y-6">
         <div className="rounded-xl border bg-muted/30 p-5">
-          <p className="font-semibold text-lg">
-            {greeting}, Alex 👋
-          </p>
+          <p className="font-semibold text-lg">{greeting}, Alex 👋</p>
 
           <p className="text-sm text-muted-foreground mt-2">
             Here's what deserves your attention today.
@@ -143,63 +111,42 @@ export function AIBriefing() {
           <div className="rounded-xl border p-4">
             <TrendingUp className="h-5 w-5 text-green-600" />
 
-            <h3 className="mt-4 text-sm font-medium">
-              Income
-            </h3>
+            <h3 className="mt-4 text-sm font-medium">Income</h3>
 
-            <p className="text-xl font-bold text-green-600 mt-2">
-              {formatMoney(income)}
-            </p>
+            <p className="text-xl font-bold text-green-600 mt-2">{formatMoney(income)}</p>
           </div>
 
           <div className="rounded-xl border p-4">
             <TrendingDown className="h-5 w-5 text-red-600" />
 
-            <h3 className="mt-4 text-sm font-medium">
-              Expenses
-            </h3>
+            <h3 className="mt-4 text-sm font-medium">Expenses</h3>
 
-            <p className="text-xl font-bold text-red-600 mt-2">
-              {formatMoney(expenses)}
-            </p>
+            <p className="text-xl font-bold text-red-600 mt-2">{formatMoney(expenses)}</p>
           </div>
 
           <div className="rounded-xl border p-4">
             <CircleDollarSign className="h-5 w-5 text-orange-600" />
 
-            <h3 className="mt-4 text-sm font-medium">
-              Expected Income
-            </h3>
+            <h3 className="mt-4 text-sm font-medium">Expected Income</h3>
 
-            <p className="text-xl font-bold mt-2">
-              {formatMoney(expectedCash)}
-            </p>
+            <p className="text-xl font-bold mt-2">{formatMoney(expectedCash)}</p>
           </div>
 
           <div className="rounded-xl border p-4">
             <Target className="h-5 w-5 text-purple-600" />
 
-            <h3 className="mt-4 text-sm font-medium">
-              Cash Flow
-            </h3>
+            <h3 className="mt-4 text-sm font-medium">Cash Flow</h3>
 
-            <p className="text-xl font-bold mt-2">
-              {formatMoney(cashFlow)}
-            </p>
+            <p className="text-xl font-bold mt-2">{formatMoney(cashFlow)}</p>
           </div>
         </div>
 
         <div className="rounded-xl border border-primary/20 bg-primary/5 p-5">
-          <p className="font-semibold mb-4">
-            🤖 AlexOS Insights
-          </p>
+          <p className="font-semibold mb-4">🤖 AlexOS Insights</p>
 
           <div className="space-y-3">
             {insights.map((insight, index) => (
-              <div
-                key={index}
-                className="rounded-lg bg-background p-3 border text-sm"
-              >
+              <div key={index} className="rounded-lg bg-background p-3 border text-sm">
                 {insight}
               </div>
             ))}

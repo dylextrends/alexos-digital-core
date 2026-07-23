@@ -37,7 +37,10 @@ function IncomePage() {
           <h1 className="text-2xl font-semibold tracking-tight">Income</h1>
           <p className="text-sm text-muted-foreground">All money coming in.</p>
         </div>
-        <Button onClick={() => setOpen(true)} className="rounded-xl bg-[color:var(--success)] hover:bg-[color:var(--success)]/90 text-[color:var(--success-foreground)]">
+        <Button
+          onClick={() => setOpen(true)}
+          className="rounded-xl bg-[color:var(--success)] hover:bg-[color:var(--success)]/90 text-[color:var(--success-foreground)]"
+        >
           <Plus className="h-4 w-4 mr-1" /> Quick Add Income
         </Button>
       </header>
@@ -45,15 +48,21 @@ function IncomePage() {
       <div className="grid gap-3 sm:grid-cols-3">
         <Card className="rounded-2xl">
           <CardHeader className="pb-1">
-            <CardTitle className="text-[10px] uppercase tracking-widest text-muted-foreground">This Month</CardTitle>
+            <CardTitle className="text-[10px] uppercase tracking-widest text-muted-foreground">
+              This Month
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-semibold text-[color:var(--success)]">{formatMoney(monthTotal)}</div>
+            <div className="text-xl font-semibold text-[color:var(--success)]">
+              {formatMoney(monthTotal)}
+            </div>
           </CardContent>
         </Card>
         <Card className="rounded-2xl">
           <CardHeader className="pb-1">
-            <CardTitle className="text-[10px] uppercase tracking-widest text-muted-foreground">All Time</CardTitle>
+            <CardTitle className="text-[10px] uppercase tracking-widest text-muted-foreground">
+              All Time
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-xl font-semibold">{formatMoney(total)}</div>
@@ -61,7 +70,9 @@ function IncomePage() {
         </Card>
         <Card className="rounded-2xl">
           <CardHeader className="pb-1">
-            <CardTitle className="text-[10px] uppercase tracking-widest text-muted-foreground">Entries</CardTitle>
+            <CardTitle className="text-[10px] uppercase tracking-widest text-muted-foreground">
+              Entries
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-xl font-semibold">{txs.length}</div>
@@ -71,7 +82,9 @@ function IncomePage() {
 
       <div className="grid gap-4 lg:grid-cols-3">
         <Card className="rounded-2xl lg:col-span-2">
-          <CardHeader><CardTitle className="text-base">Recent Income</CardTitle></CardHeader>
+          <CardHeader>
+            <CardTitle className="text-base">Recent Income</CardTitle>
+          </CardHeader>
           <CardContent>
             {txs.length === 0 ? (
               <div className="text-sm text-muted-foreground border border-dashed rounded-xl p-8 text-center">
@@ -82,14 +95,16 @@ function IncomePage() {
                 {txs.slice(0, 20).map((t) => (
                   <li key={t.id} className="py-3 flex items-center justify-between gap-3">
                     <div className="min-w-0">
-                      <div className="text-sm font-medium truncate">{t.description || t.source}</div>
+                      <div className="text-sm font-medium truncate">
+                        {t.description || t.source}
+                      </div>
                       <div className="text-xs text-muted-foreground">
-                        {formatDate(t.occurred_at)} · {formatTime(t.occurred_at)} · {accName[t.account_id]} · {t.source}
+                        {formatDate(t.occurred_at)} · {formatTime(t.occurred_at)} ·{" "}
+                        {accName[t.account_id]} · {t.source}
                       </div>
                     </div>
                     <div className="flex items-center gap-2 text-[color:var(--success)] font-semibold">
-                      <ArrowDownCircle className="h-4 w-4" />
-                      +{formatMoney(t.amount)}
+                      <ArrowDownCircle className="h-4 w-4" />+{formatMoney(t.amount)}
                     </div>
                   </li>
                 ))}
@@ -98,7 +113,9 @@ function IncomePage() {
           </CardContent>
         </Card>
         <Card className="rounded-2xl">
-          <CardHeader><CardTitle className="text-base">By Source</CardTitle></CardHeader>
+          <CardHeader>
+            <CardTitle className="text-base">By Source</CardTitle>
+          </CardHeader>
           <CardContent className="space-y-2">
             {Object.entries(bySource).length === 0 && (
               <div className="text-sm text-muted-foreground">—</div>

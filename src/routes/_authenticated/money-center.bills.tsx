@@ -34,9 +34,7 @@ function BillsPage() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold">Bills Management</h1>
-          <p className="text-muted-foreground">
-            Track your recurring payments and obligations.
-          </p>
+          <p className="text-muted-foreground">Track your recurring payments and obligations.</p>
         </div>
 
         <Button>
@@ -94,19 +92,13 @@ function BillsPage() {
                 <div>
                   <h3 className="font-semibold">{bill.name}</h3>
 
-                  <p className="text-sm text-muted-foreground">
-                    {bill.due}
-                  </p>
+                  <p className="text-sm text-muted-foreground">{bill.due}</p>
                 </div>
 
                 <div className="text-right">
-                  <p className="font-bold">
-                    KSh {bill.amount.toLocaleString()}
-                  </p>
+                  <p className="font-bold">KSh {bill.amount.toLocaleString()}</p>
 
-                  <span className="text-xs text-orange-600">
-                    {bill.status}
-                  </span>
+                  <span className="text-xs text-orange-600">{bill.status}</span>
                 </div>
               </div>
             ))}

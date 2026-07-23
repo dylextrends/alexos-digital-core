@@ -24,7 +24,9 @@ function TransfersPage() {
       <header className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Transfers</h1>
-          <p className="text-sm text-muted-foreground">Move money between your accounts. Not counted as income or expense.</p>
+          <p className="text-sm text-muted-foreground">
+            Move money between your accounts. Not counted as income or expense.
+          </p>
         </div>
         <Button onClick={() => setOpen(true)} className="rounded-xl">
           <Plus className="h-4 w-4 mr-1" /> New Transfer
@@ -34,7 +36,9 @@ function TransfersPage() {
       <div className="grid gap-3 sm:grid-cols-2">
         <Card className="rounded-2xl">
           <CardHeader className="pb-1">
-            <CardTitle className="text-[10px] uppercase tracking-widest text-muted-foreground">Total Moved</CardTitle>
+            <CardTitle className="text-[10px] uppercase tracking-widest text-muted-foreground">
+              Total Moved
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-xl font-semibold">{formatMoney(total)}</div>
@@ -42,7 +46,9 @@ function TransfersPage() {
         </Card>
         <Card className="rounded-2xl">
           <CardHeader className="pb-1">
-            <CardTitle className="text-[10px] uppercase tracking-widest text-muted-foreground">Transfers</CardTitle>
+            <CardTitle className="text-[10px] uppercase tracking-widest text-muted-foreground">
+              Transfers
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-xl font-semibold">{txs.length}</div>
@@ -51,7 +57,9 @@ function TransfersPage() {
       </div>
 
       <Card className="rounded-2xl">
-        <CardHeader><CardTitle className="text-base">Recent Transfers</CardTitle></CardHeader>
+        <CardHeader>
+          <CardTitle className="text-base">Recent Transfers</CardTitle>
+        </CardHeader>
         <CardContent>
           {txs.length === 0 ? (
             <div className="text-sm text-muted-foreground border border-dashed rounded-xl p-8 text-center">
@@ -67,7 +75,8 @@ function TransfersPage() {
                     </div>
                     <div className="min-w-0">
                       <div className="text-sm font-medium truncate">
-                        {accName[t.account_id]} → {t.transfer_account_id ? accName[t.transfer_account_id] : "—"}
+                        {accName[t.account_id]} →{" "}
+                        {t.transfer_account_id ? accName[t.transfer_account_id] : "—"}
                       </div>
                       <div className="text-xs text-muted-foreground">
                         {formatDate(t.occurred_at)} · {formatTime(t.occurred_at)}

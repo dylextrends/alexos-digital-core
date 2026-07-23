@@ -3,7 +3,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 export default function BusinessSnapshot() {
   return (
     <div className="grid gap-4 md:grid-cols-4">
-
       <Card>
         <CardHeader>
           <CardTitle>CRM</CardTitle>
@@ -31,7 +30,6 @@ export default function BusinessSnapshot() {
         </CardHeader>
         <CardContent>2 Campaigns Running</CardContent>
       </Card>
-
     </div>
   );
 }

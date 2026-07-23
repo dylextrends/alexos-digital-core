@@ -3,12 +3,7 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  useAccountBalances,
-  useAccounts,
-  useArchiveAccount,
-  type Account,
-} from "@/lib/money/api";
+import { useAccountBalances, useAccounts, useArchiveAccount, type Account } from "@/lib/money/api";
 import { ACCOUNT_ICONS } from "@/lib/money/constants";
 import { formatMoney } from "@/lib/money/format";
 import { AccountFormDialog } from "@/components/money/AccountFormDialog";
@@ -49,7 +44,9 @@ function AccountsPage() {
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">
             <Switch id="archived" checked={showArchived} onCheckedChange={setShowArchived} />
-            <Label htmlFor="archived" className="text-sm">Show archived</Label>
+            <Label htmlFor="archived" className="text-sm">
+              Show archived
+            </Label>
           </div>
           <Button onClick={openNew} className="rounded-xl">
             <Plus className="h-4 w-4 mr-1" /> New Account
@@ -58,9 +55,7 @@ function AccountsPage() {
       </header>
 
       <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-        {isLoading && (
-          <div className="text-sm text-muted-foreground">Loading...</div>
-        )}
+        {isLoading && <div className="text-sm text-muted-foreground">Loading...</div>}
         {accounts.map((a) => {
           const bal = balances.find((b) => b.account_id === a.id);
           const Icon = ACCOUNT_ICONS[a.icon] ?? Wallet;

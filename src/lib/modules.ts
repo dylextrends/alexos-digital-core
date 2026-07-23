@@ -133,10 +133,4 @@ export const modules: ModuleDef[] = [
   },
 ];
 
-export const moduleGroups = [
-  "Overview",
-  "Operations",
-  "Growth",
-  "Productivity",
-  "System",
-] as const;
+export const moduleGroups = ["Overview", "Operations", "Growth", "Productivity", "System"] as const;
