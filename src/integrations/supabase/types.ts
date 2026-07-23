@@ -62,6 +62,75 @@ export type Database = {
         }
         Relationships: []
       }
+      bills: {
+        Row: {
+          account_id: string | null
+          amount: number
+          auto_create_transaction: boolean
+          category: string | null
+          created_at: string
+          deleted_at: string | null
+          due_date: string
+          frequency: Database["public"]["Enums"]["bill_frequency"]
+          id: string
+          last_paid_at: string | null
+          name: string
+          notes: string | null
+          status: Database["public"]["Enums"]["bill_status"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          account_id?: string | null
+          amount: number
+          auto_create_transaction?: boolean
+          category?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          due_date: string
+          frequency?: Database["public"]["Enums"]["bill_frequency"]
+          id?: string
+          last_paid_at?: string | null
+          name: string
+          notes?: string | null
+          status?: Database["public"]["Enums"]["bill_status"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          account_id?: string | null
+          amount?: number
+          auto_create_transaction?: boolean
+          category?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          due_date?: string
+          frequency?: Database["public"]["Enums"]["bill_frequency"]
+          id?: string
+          last_paid_at?: string | null
+          name?: string
+          notes?: string | null
+          status?: Database["public"]["Enums"]["bill_status"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bills_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "account_balances"
+            referencedColumns: ["account_id"]
+          },
+          {
+            foreignKeyName: "bills_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       budgets: {
         Row: {
           amount: number
@@ -440,6 +509,8 @@ export type Database = {
         | "credit_card"
         | "wallet"
         | "other"
+      bill_frequency: "one_time" | "weekly" | "monthly"
+      bill_status: "pending" | "paid"
       debt_priority: "low" | "medium" | "high"
       debt_status: "active" | "paid" | "defaulted" | "archived"
       expected_status: "pending" | "received" | "cancelled"
@@ -582,6 +653,8 @@ export const Constants = {
         "wallet",
         "other",
       ],
+      bill_frequency: ["one_time", "weekly", "monthly"],
+      bill_status: ["pending", "paid"],
       debt_priority: ["low", "medium", "high"],
       debt_status: ["active", "paid", "defaulted", "archived"],
       expected_status: ["pending", "received", "cancelled"],
