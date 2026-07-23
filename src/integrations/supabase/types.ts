@@ -196,9 +196,12 @@ export type Database = {
           auto_create_transaction: boolean | null
           category: string | null
           created_at: string
+          deleted_at: string | null
+          due_date: string | null
           due_day: number | null
           frequency: Database["public"]["Enums"]["bill_frequency"]
           id: string
+          last_paid_at: string | null
           name: string
           next_due_date: string | null
           notes: string | null
@@ -212,9 +215,12 @@ export type Database = {
           auto_create_transaction?: boolean | null
           category?: string | null
           created_at?: string
+          deleted_at?: string | null
+          due_date?: string | null
           due_day?: number | null
           frequency?: Database["public"]["Enums"]["bill_frequency"]
           id?: string
+          last_paid_at?: string | null
           name: string
           next_due_date?: string | null
           notes?: string | null
@@ -228,9 +234,12 @@ export type Database = {
           auto_create_transaction?: boolean | null
           category?: string | null
           created_at?: string
+          deleted_at?: string | null
+          due_date?: string | null
           due_day?: number | null
           frequency?: Database["public"]["Enums"]["bill_frequency"]
           id?: string
+          last_paid_at?: string | null
           name?: string
           next_due_date?: string | null
           notes?: string | null
@@ -888,8 +897,8 @@ export type Database = {
         | "credit_card"
         | "wallet"
         | "other"
-      bill_frequency: "weekly" | "monthly" | "quarterly" | "yearly"
-      bill_status: "active" | "paid" | "cancelled"
+      bill_frequency: "weekly" | "monthly" | "quarterly" | "yearly" | "one_time"
+      bill_status: "active" | "paid" | "cancelled" | "pending"
       debt_priority: "low" | "medium" | "high"
       debt_status: "active" | "paid" | "defaulted" | "archived"
       expected_status: "pending" | "received" | "cancelled"
@@ -1035,8 +1044,8 @@ export const Constants = {
         "wallet",
         "other",
       ],
-      bill_frequency: ["weekly", "monthly", "quarterly", "yearly"],
-      bill_status: ["active", "paid", "cancelled"],
+      bill_frequency: ["weekly", "monthly", "quarterly", "yearly", "one_time"],
+      bill_status: ["active", "paid", "cancelled", "pending"],
       debt_priority: ["low", "medium", "high"],
       debt_status: ["active", "paid", "defaulted", "archived"],
       expected_status: ["pending", "received", "cancelled"],
