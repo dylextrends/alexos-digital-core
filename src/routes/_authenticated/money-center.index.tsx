@@ -27,6 +27,7 @@ function MoneyDashboard() {
   const { data: balances = [] } = useAccountBalances();
   const { data: txs = [] } = useTransactions({ limit: 8 });
   const { data: pendingExpected = [] } = useExpected("pending");
+  const { data: bills = [] } = useBills();
 
   const now = new Date();
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
