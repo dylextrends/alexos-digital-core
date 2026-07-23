@@ -30,6 +30,7 @@ import { Route as AuthenticatedVehicleSalesRouteImport } from './routes/_authent
 import { Route as AuthenticatedMoneyCenterIndexRouteImport } from './routes/_authenticated/money-center.index'
 import { Route as AuthenticatedMoneyCenterAccountsRouteImport } from './routes/_authenticated/money-center.accounts'
 import { Route as AuthenticatedMoneyCenterAnalyticsRouteImport } from './routes/_authenticated/money-center.analytics'
+import { Route as AuthenticatedMoneyCenterBillsRouteImport } from './routes/_authenticated/money-center.bills'
 import { Route as AuthenticatedMoneyCenterBudgetsRouteImport } from './routes/_authenticated/money-center.budgets'
 import { Route as AuthenticatedMoneyCenterExpectedRouteImport } from './routes/_authenticated/money-center.expected'
 import { Route as AuthenticatedMoneyCenterExpensesRouteImport } from './routes/_authenticated/money-center.expenses'
@@ -147,6 +148,12 @@ const AuthenticatedMoneyCenterAnalyticsRoute =
     path: '/analytics',
     getParentRoute: () => AuthenticatedMoneyCenterRoute,
   } as any)
+const AuthenticatedMoneyCenterBillsRoute =
+  AuthenticatedMoneyCenterBillsRouteImport.update({
+    id: '/bills',
+    path: '/bills',
+    getParentRoute: () => AuthenticatedMoneyCenterRoute,
+  } as any)
 const AuthenticatedMoneyCenterBudgetsRoute =
   AuthenticatedMoneyCenterBudgetsRouteImport.update({
     id: '/budgets',
@@ -204,6 +211,7 @@ export interface FileRoutesByFullPath {
   '/vehicle-sales': typeof AuthenticatedVehicleSalesRoute
   '/money-center/accounts': typeof AuthenticatedMoneyCenterAccountsRoute
   '/money-center/analytics': typeof AuthenticatedMoneyCenterAnalyticsRoute
+  '/money-center/bills': typeof AuthenticatedMoneyCenterBillsRoute
   '/money-center/budgets': typeof AuthenticatedMoneyCenterBudgetsRoute
   '/money-center/expected': typeof AuthenticatedMoneyCenterExpectedRoute
   '/money-center/expenses': typeof AuthenticatedMoneyCenterExpensesRoute
@@ -231,6 +239,7 @@ export interface FileRoutesByTo {
   '/vehicle-sales': typeof AuthenticatedVehicleSalesRoute
   '/money-center/accounts': typeof AuthenticatedMoneyCenterAccountsRoute
   '/money-center/analytics': typeof AuthenticatedMoneyCenterAnalyticsRoute
+  '/money-center/bills': typeof AuthenticatedMoneyCenterBillsRoute
   '/money-center/budgets': typeof AuthenticatedMoneyCenterBudgetsRoute
   '/money-center/expected': typeof AuthenticatedMoneyCenterExpectedRoute
   '/money-center/expenses': typeof AuthenticatedMoneyCenterExpensesRoute
@@ -261,6 +270,7 @@ export interface FileRoutesById {
   '/_authenticated/vehicle-sales': typeof AuthenticatedVehicleSalesRoute
   '/_authenticated/money-center/accounts': typeof AuthenticatedMoneyCenterAccountsRoute
   '/_authenticated/money-center/analytics': typeof AuthenticatedMoneyCenterAnalyticsRoute
+  '/_authenticated/money-center/bills': typeof AuthenticatedMoneyCenterBillsRoute
   '/_authenticated/money-center/budgets': typeof AuthenticatedMoneyCenterBudgetsRoute
   '/_authenticated/money-center/expected': typeof AuthenticatedMoneyCenterExpectedRoute
   '/_authenticated/money-center/expenses': typeof AuthenticatedMoneyCenterExpensesRoute
@@ -291,6 +301,7 @@ export interface FileRouteTypes {
     | '/vehicle-sales'
     | '/money-center/accounts'
     | '/money-center/analytics'
+    | '/money-center/bills'
     | '/money-center/budgets'
     | '/money-center/expected'
     | '/money-center/expenses'
@@ -318,6 +329,7 @@ export interface FileRouteTypes {
     | '/vehicle-sales'
     | '/money-center/accounts'
     | '/money-center/analytics'
+    | '/money-center/bills'
     | '/money-center/budgets'
     | '/money-center/expected'
     | '/money-center/expenses'
@@ -347,6 +359,7 @@ export interface FileRouteTypes {
     | '/_authenticated/vehicle-sales'
     | '/_authenticated/money-center/accounts'
     | '/_authenticated/money-center/analytics'
+    | '/_authenticated/money-center/bills'
     | '/_authenticated/money-center/budgets'
     | '/_authenticated/money-center/expected'
     | '/_authenticated/money-center/expenses'
@@ -511,6 +524,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMoneyCenterAnalyticsRouteImport
       parentRoute: typeof AuthenticatedMoneyCenterRoute
     }
+    '/_authenticated/money-center/bills': {
+      id: '/_authenticated/money-center/bills'
+      path: '/bills'
+      fullPath: '/money-center/bills'
+      preLoaderRoute: typeof AuthenticatedMoneyCenterBillsRouteImport
+      parentRoute: typeof AuthenticatedMoneyCenterRoute
+    }
     '/_authenticated/money-center/budgets': {
       id: '/_authenticated/money-center/budgets'
       path: '/budgets'
@@ -559,6 +579,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedMoneyCenterRouteChildren {
   AuthenticatedMoneyCenterAccountsRoute: typeof AuthenticatedMoneyCenterAccountsRoute
   AuthenticatedMoneyCenterAnalyticsRoute: typeof AuthenticatedMoneyCenterAnalyticsRoute
+  AuthenticatedMoneyCenterBillsRoute: typeof AuthenticatedMoneyCenterBillsRoute
   AuthenticatedMoneyCenterBudgetsRoute: typeof AuthenticatedMoneyCenterBudgetsRoute
   AuthenticatedMoneyCenterExpectedRoute: typeof AuthenticatedMoneyCenterExpectedRoute
   AuthenticatedMoneyCenterExpensesRoute: typeof AuthenticatedMoneyCenterExpensesRoute
@@ -574,6 +595,7 @@ const AuthenticatedMoneyCenterRouteChildren: AuthenticatedMoneyCenterRouteChildr
       AuthenticatedMoneyCenterAccountsRoute,
     AuthenticatedMoneyCenterAnalyticsRoute:
       AuthenticatedMoneyCenterAnalyticsRoute,
+    AuthenticatedMoneyCenterBillsRoute: AuthenticatedMoneyCenterBillsRoute,
     AuthenticatedMoneyCenterBudgetsRoute: AuthenticatedMoneyCenterBudgetsRoute,
     AuthenticatedMoneyCenterExpectedRoute:
       AuthenticatedMoneyCenterExpectedRoute,
