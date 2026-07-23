@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { QuickActions } from "@/components/money/QuickActions";
 import { useAccountBalances, useAccounts, useExpected, useTransactions } from "@/lib/money/api";
+import { useBills } from "@/lib/money/bills";
 import { ACCOUNT_ICONS } from "@/lib/money/constants";
 import { formatDate, formatMoney, formatTime } from "@/lib/money/format";
 import {
@@ -13,6 +14,7 @@ import {
   TrendingDown,
   Clock,
   PiggyBank,
+  Receipt,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
