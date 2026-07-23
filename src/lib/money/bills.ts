@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import type { Database } from "@/lib/database.types";
+import type { Database } from "@/integrations/supabase/types";
 
 export type BillFrequency = Database["public"]["Enums"]["bill_frequency"];
 export type BillStatus = Database["public"]["Enums"]["bill_status"];
