@@ -77,6 +77,27 @@ function MoneyDashboard() {
     },
     { label: "Expected (weighted)", value: expectedTotal, icon: Clock, tone: "text-amber-600" },
     { label: "Net Worth", value: total, icon: Wallet, tone: "text-primary" },
+    {
+      label: "Upcoming Bills (7d)",
+      value: upcomingBills.reduce((s, b) => s + Number(b.amount), 0),
+      icon: Clock,
+      tone: "text-primary",
+      hint: `${upcomingBills.length} bills`,
+    },
+    {
+      label: "Unpaid Bills",
+      value: unpaidTotal,
+      icon: Receipt,
+      tone: "text-destructive",
+      hint: `${unpaidBills.length} pending`,
+    },
+    {
+      label: "Bills Due This Month",
+      value: billsThisMonth.reduce((s, b) => s + Number(b.amount), 0),
+      icon: Receipt,
+      tone: "text-amber-600",
+      hint: `${billsThisMonth.length} bills`,
+    },
   ];
 
   return (
