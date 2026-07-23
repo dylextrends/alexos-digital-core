@@ -45,6 +45,15 @@ function MoneyDashboard() {
     (s, e) => s + (Number(e.amount) * e.probability) / 100,
     0,
   );
+  const monthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+  const unpaidBills = bills.filter((b) => b.status === "pending");
+  const unpaidTotal = unpaidBills.reduce((s, b) => s + Number(b.amount), 0);
+  const upcomingBills = unpaidBills.filter((b) => {
+    const d = new Date(b.due_date + "T00:00:00");
+    const diff = Math.round((d.getTime() - new Date(now.toDateString()).getTime()) / 86_400_000);
+    return diff >= 0 && diff <= 7;
+  });
+  const billsThisMonth = unpaidBills.filter((b) => b.due_date.startsWith(monthKey));
 
   const kpis = [
     { label: "Total Available", value: total, icon: Wallet, tone: "text-primary" },
