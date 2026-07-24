@@ -44,13 +44,13 @@ export const Route = createFileRoute(
   component: BillsPage,
 });
 
-const frequencies: BillFrequency[] = [
-  "one_time",
-  "weekly",
-  "monthly",
-  "quarterly",
-  "yearly",
-];
+const frequencies: BillFrequency[] = ["one_time", "weekly", "monthly"];
+
+const frequencyLabels: Record<BillFrequency, string> = {
+  one_time: "One-time",
+  weekly: "Weekly",
+  monthly: "Monthly",
+};
 
 function currency(value: number) {
   return new Intl.NumberFormat("en-KE", {
