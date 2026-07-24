@@ -70,7 +70,7 @@ function BillsPage() {
   const [open, setOpen] = useState(false);
 
   const activeBills = useMemo(
-    () => bills.filter((b) => b.status === "active"),
+    () => bills.filter((b) => b.status === "pending"),
     [bills]
   );
 
