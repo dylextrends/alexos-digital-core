@@ -44,13 +44,13 @@ export const Route = createFileRoute(
   component: BillsPage,
 });
 
-const frequencies: BillFrequency[] = [
-  "one_time",
-  "weekly",
-  "monthly",
-  "quarterly",
-  "yearly",
-];
+const frequencies: BillFrequency[] = ["one_time", "weekly", "monthly"];
+
+const frequencyLabels: Record<BillFrequency, string> = {
+  one_time: "One-time",
+  weekly: "Weekly",
+  monthly: "Monthly",
+};
 
 function currency(value: number) {
   return new Intl.NumberFormat("en-KE", {
@@ -70,7 +70,7 @@ function BillsPage() {
   const [open, setOpen] = useState(false);
 
   const activeBills = useMemo(
-    () => bills.filter((b) => b.status === "active"),
+    () => bills.filter((b) => b.status === "pending"),
     [bills]
   );
 
@@ -302,7 +302,7 @@ function BillDialog({
     notes: bill?.notes ?? "",
     auto_create_transaction:
       bill?.auto_create_transaction ?? false,
-    status: bill?.status ?? "active",
+    status: bill?.status ?? "pending",
   });
 
   function update<K extends keyof BillInput>(
@@ -399,7 +399,7 @@ function BillDialog({
                     key={f}
                     value={f}
                   >
-                    {f}
+                    {frequencyLabels[f]}
                   </SelectItem>
                 ))}
               </SelectContent>

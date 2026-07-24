@@ -12,31 +12,6 @@ export type Database = {
   __InternalSupabase: {
     PostgrestVersion: "14.5"
   }
-  graphql_public: {
-    Tables: {
-      [_ in never]: never
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      graphql: {
-        Args: {
-          extensions?: Json
-          operationName?: string
-          query?: string
-          variables?: Json
-        }
-        Returns: Json
-      }
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
-  }
   public: {
     Tables: {
       accounts: {
@@ -87,123 +62,19 @@ export type Database = {
         }
         Relationships: []
       }
-      activities: {
-        Row: {
-          activity_date: string
-          completed: boolean
-          contact_id: string | null
-          created_at: string
-          description: string | null
-          id: string
-          lead_id: string | null
-          subject: string
-          type: string
-          user_id: string
-        }
-        Insert: {
-          activity_date?: string
-          completed?: boolean
-          contact_id?: string | null
-          created_at?: string
-          description?: string | null
-          id?: string
-          lead_id?: string | null
-          subject: string
-          type: string
-          user_id: string
-        }
-        Update: {
-          activity_date?: string
-          completed?: boolean
-          contact_id?: string | null
-          created_at?: string
-          description?: string | null
-          id?: string
-          lead_id?: string | null
-          subject?: string
-          type?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "activities_contact_id_fkey"
-            columns: ["contact_id"]
-            isOneToOne: false
-            referencedRelation: "contacts"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "activities_lead_id_fkey"
-            columns: ["lead_id"]
-            isOneToOne: false
-            referencedRelation: "leads"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      attachments: {
-        Row: {
-          contact_id: string | null
-          created_at: string
-          file_name: string
-          file_size: number | null
-          file_url: string
-          id: string
-          lead_id: string | null
-          user_id: string
-        }
-        Insert: {
-          contact_id?: string | null
-          created_at?: string
-          file_name: string
-          file_size?: number | null
-          file_url: string
-          id?: string
-          lead_id?: string | null
-          user_id: string
-        }
-        Update: {
-          contact_id?: string | null
-          created_at?: string
-          file_name?: string
-          file_size?: number | null
-          file_url?: string
-          id?: string
-          lead_id?: string | null
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "attachments_contact_id_fkey"
-            columns: ["contact_id"]
-            isOneToOne: false
-            referencedRelation: "contacts"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "attachments_lead_id_fkey"
-            columns: ["lead_id"]
-            isOneToOne: false
-            referencedRelation: "leads"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       bills: {
         Row: {
           account_id: string | null
           amount: number
-          auto_create_transaction: boolean | null
+          auto_create_transaction: boolean
           category: string | null
           created_at: string
           deleted_at: string | null
-          due_date: string | null
-          due_day: number | null
+          due_date: string
           frequency: Database["public"]["Enums"]["bill_frequency"]
           id: string
           last_paid_at: string | null
           name: string
-          next_due_date: string | null
           notes: string | null
           status: Database["public"]["Enums"]["bill_status"]
           updated_at: string
@@ -211,18 +82,16 @@ export type Database = {
         }
         Insert: {
           account_id?: string | null
-          amount?: number
-          auto_create_transaction?: boolean | null
+          amount: number
+          auto_create_transaction?: boolean
           category?: string | null
           created_at?: string
           deleted_at?: string | null
-          due_date?: string | null
-          due_day?: number | null
+          due_date: string
           frequency?: Database["public"]["Enums"]["bill_frequency"]
           id?: string
           last_paid_at?: string | null
           name: string
-          next_due_date?: string | null
           notes?: string | null
           status?: Database["public"]["Enums"]["bill_status"]
           updated_at?: string
@@ -231,23 +100,36 @@ export type Database = {
         Update: {
           account_id?: string | null
           amount?: number
-          auto_create_transaction?: boolean | null
+          auto_create_transaction?: boolean
           category?: string | null
           created_at?: string
           deleted_at?: string | null
-          due_date?: string | null
-          due_day?: number | null
+          due_date?: string
           frequency?: Database["public"]["Enums"]["bill_frequency"]
           id?: string
           last_paid_at?: string | null
           name?: string
-          next_due_date?: string | null
           notes?: string | null
           status?: Database["public"]["Enums"]["bill_status"]
           updated_at?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "bills_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "account_balances"
+            referencedColumns: ["account_id"]
+          },
+          {
+            foreignKeyName: "bills_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       budgets: {
         Row: {
@@ -278,123 +160,6 @@ export type Database = {
           id?: string
           month?: string
           updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
-      contacts: {
-        Row: {
-          address: string | null
-          alternate_phone: string | null
-          avatar_url: string | null
-          city: string | null
-          company_name: string | null
-          country: string | null
-          county: string | null
-          created_at: string
-          display_name: string
-          email: string | null
-          first_name: string | null
-          id: string
-          industry: string | null
-          job_title: string | null
-          last_name: string | null
-          notes: string | null
-          phone: string | null
-          postal_code: string | null
-          source: string | null
-          status: string
-          type: string
-          updated_at: string
-          user_id: string
-          website: string | null
-        }
-        Insert: {
-          address?: string | null
-          alternate_phone?: string | null
-          avatar_url?: string | null
-          city?: string | null
-          company_name?: string | null
-          country?: string | null
-          county?: string | null
-          created_at?: string
-          display_name: string
-          email?: string | null
-          first_name?: string | null
-          id?: string
-          industry?: string | null
-          job_title?: string | null
-          last_name?: string | null
-          notes?: string | null
-          phone?: string | null
-          postal_code?: string | null
-          source?: string | null
-          status?: string
-          type?: string
-          updated_at?: string
-          user_id: string
-          website?: string | null
-        }
-        Update: {
-          address?: string | null
-          alternate_phone?: string | null
-          avatar_url?: string | null
-          city?: string | null
-          company_name?: string | null
-          country?: string | null
-          county?: string | null
-          created_at?: string
-          display_name?: string
-          email?: string | null
-          first_name?: string | null
-          id?: string
-          industry?: string | null
-          job_title?: string | null
-          last_name?: string | null
-          notes?: string | null
-          phone?: string | null
-          postal_code?: string | null
-          source?: string | null
-          status?: string
-          type?: string
-          updated_at?: string
-          user_id?: string
-          website?: string | null
-        }
-        Relationships: []
-      }
-      customers: {
-        Row: {
-          created_at: string | null
-          email: string | null
-          id: string
-          name: string
-          notes: string | null
-          phone: string | null
-          source: string | null
-          status: string | null
-          user_id: string
-        }
-        Insert: {
-          created_at?: string | null
-          email?: string | null
-          id?: string
-          name: string
-          notes?: string | null
-          phone?: string | null
-          source?: string | null
-          status?: string | null
-          user_id: string
-        }
-        Update: {
-          created_at?: string | null
-          email?: string | null
-          id?: string
-          name?: string
-          notes?: string | null
-          phone?: string | null
-          source?: string | null
-          status?: string | null
           user_id?: string
         }
         Relationships: []
@@ -625,159 +390,6 @@ export type Database = {
         }
         Relationships: []
       }
-      leads: {
-        Row: {
-          contact_id: string | null
-          created_at: string | null
-          customer_id: string | null
-          id: string
-          notes: string | null
-          probability: number | null
-          stage: string | null
-          title: string
-          user_id: string
-          value: number | null
-        }
-        Insert: {
-          contact_id?: string | null
-          created_at?: string | null
-          customer_id?: string | null
-          id?: string
-          notes?: string | null
-          probability?: number | null
-          stage?: string | null
-          title: string
-          user_id: string
-          value?: number | null
-        }
-        Update: {
-          contact_id?: string | null
-          created_at?: string | null
-          customer_id?: string | null
-          id?: string
-          notes?: string | null
-          probability?: number | null
-          stage?: string | null
-          title?: string
-          user_id?: string
-          value?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "leads_contact_id_fkey"
-            columns: ["contact_id"]
-            isOneToOne: false
-            referencedRelation: "contacts"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "leads_customer_id_fkey"
-            columns: ["customer_id"]
-            isOneToOne: false
-            referencedRelation: "customers"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      notes: {
-        Row: {
-          contact_id: string | null
-          content: string
-          created_at: string
-          id: string
-          lead_id: string | null
-          user_id: string
-        }
-        Insert: {
-          contact_id?: string | null
-          content: string
-          created_at?: string
-          id?: string
-          lead_id?: string | null
-          user_id: string
-        }
-        Update: {
-          contact_id?: string | null
-          content?: string
-          created_at?: string
-          id?: string
-          lead_id?: string | null
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "notes_contact_id_fkey"
-            columns: ["contact_id"]
-            isOneToOne: false
-            referencedRelation: "contacts"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "notes_lead_id_fkey"
-            columns: ["lead_id"]
-            isOneToOne: false
-            referencedRelation: "leads"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      tasks: {
-        Row: {
-          completed_at: string | null
-          contact_id: string | null
-          created_at: string
-          description: string | null
-          due_date: string | null
-          id: string
-          lead_id: string | null
-          priority: string | null
-          status: string | null
-          title: string
-          user_id: string
-        }
-        Insert: {
-          completed_at?: string | null
-          contact_id?: string | null
-          created_at?: string
-          description?: string | null
-          due_date?: string | null
-          id?: string
-          lead_id?: string | null
-          priority?: string | null
-          status?: string | null
-          title: string
-          user_id: string
-        }
-        Update: {
-          completed_at?: string | null
-          contact_id?: string | null
-          created_at?: string
-          description?: string | null
-          due_date?: string | null
-          id?: string
-          lead_id?: string | null
-          priority?: string | null
-          status?: string | null
-          title?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "tasks_contact_id_fkey"
-            columns: ["contact_id"]
-            isOneToOne: false
-            referencedRelation: "contacts"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "tasks_lead_id_fkey"
-            columns: ["lead_id"]
-            isOneToOne: false
-            referencedRelation: "leads"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       transactions: {
         Row: {
           account_id: string
@@ -897,8 +509,8 @@ export type Database = {
         | "credit_card"
         | "wallet"
         | "other"
-      bill_frequency: "weekly" | "monthly" | "quarterly" | "yearly" | "one_time"
-      bill_status: "active" | "paid" | "cancelled" | "pending"
+      bill_frequency: "one_time" | "weekly" | "monthly"
+      bill_status: "pending" | "paid"
       debt_priority: "low" | "medium" | "high"
       debt_status: "active" | "paid" | "defaulted" | "archived"
       expected_status: "pending" | "received" | "cancelled"
@@ -1030,9 +642,6 @@ export type CompositeTypes<
     : never
 
 export const Constants = {
-  graphql_public: {
-    Enums: {},
-  },
   public: {
     Enums: {
       account_status: ["active", "archived"],
@@ -1044,8 +653,8 @@ export const Constants = {
         "wallet",
         "other",
       ],
-      bill_frequency: ["weekly", "monthly", "quarterly", "yearly", "one_time"],
-      bill_status: ["active", "paid", "cancelled", "pending"],
+      bill_frequency: ["one_time", "weekly", "monthly"],
+      bill_status: ["pending", "paid"],
       debt_priority: ["low", "medium", "high"],
       debt_status: ["active", "paid", "defaulted", "archived"],
       expected_status: ["pending", "received", "cancelled"],
