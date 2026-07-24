@@ -399,7 +399,7 @@ function BillDialog({
                     key={f}
                     value={f}
                   >
-                    {f}
+                    {frequencyLabels[f]}
                   </SelectItem>
                 ))}
               </SelectContent>
