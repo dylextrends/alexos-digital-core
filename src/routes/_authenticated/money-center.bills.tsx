@@ -302,7 +302,7 @@ function BillDialog({
     notes: bill?.notes ?? "",
     auto_create_transaction:
       bill?.auto_create_transaction ?? false,
-    status: bill?.status ?? "active",
+    status: bill?.status ?? "pending",
   });
 
   function update<K extends keyof BillInput>(
