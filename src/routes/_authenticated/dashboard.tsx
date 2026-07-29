@@ -3,15 +3,15 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { modules, moduleGroups } from "@/lib/modules";
-import { ArrowUpRight, Sparkles } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
-import AskAlexBar from "@/components/dashboard/AskAlexBar";
 import MoneySnapshot from "@/components/dashboard/MoneySnapshot";
 import { QuickActions } from "@/components/dashboard/QuickActions";
 import BusinessSnapshot from "@/components/dashboard/BusinessSnapshot";
 import TodaysMission from "@/components/dashboard/TodaysMission";
 import RecentActivity from "@/components/dashboard/RecentActivity";
 import IntelligenceFeed from "@/components/dashboard/IntelligenceFeed";
+import RevenueCommandCenter from "@/components/dashboard/RevenueCommandCenter";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({ component: Dashboard });
 
@@ -29,11 +29,11 @@ function SafePanel({ children }: { children: ReactNode }) { return <DashboardPan
 function Dashboard() {
   const navModules = modules.filter((m) => m.url !== "/dashboard");
   return (
-    <div className="relative space-y-8 pb-10 animate-in fade-in duration-500">
+    <div className="relative space-y-7 pb-10 animate-in fade-in duration-500 sm:space-y-8">
       <SafePanel><DashboardHeader /></SafePanel>
-      <SafePanel><section className="relative overflow-hidden rounded-3xl border border-primary/15 bg-gradient-to-r from-primary/[0.07] via-background to-[var(--orion-purple)]/[0.07] p-5 sm:p-6"><div className="pointer-events-none absolute -right-20 -top-24 h-56 w-56 rounded-full bg-primary/10 blur-3xl" /><div className="relative flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between"><div><div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-primary"><Sparkles className="h-3.5 w-3.5" />Your command center</div><h2 className="text-xl font-semibold tracking-tight sm:text-2xl">Know what matters. Act on it.</h2><p className="mt-1 max-w-2xl text-sm leading-6 text-muted-foreground">Orion brings your priorities, mission, money and business signals into one clear view.</p></div><div className="w-full lg:max-w-xl"><AskAlexBar /></div></div></section></SafePanel>
       <SafePanel><TodaysMission /></SafePanel>
       <SafePanel><section className="space-y-3"><div><p className="text-xs font-semibold uppercase tracking-[0.16em] text-violet-600 dark:text-violet-300">Orion Intelligence</p><h2 className="mt-1 text-2xl font-semibold tracking-tight">What deserves your attention?</h2><p className="text-sm text-muted-foreground">Signals first. Noise later.</p></div><IntelligenceFeed /></section></SafePanel>
+      <SafePanel><RevenueCommandCenter /></SafePanel>
       <SafePanel><section className="space-y-4"><div><p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">Money</p><h2 className="text-2xl font-semibold tracking-tight">Know where you stand.</h2><p className="text-sm text-muted-foreground">Cash, commitments and financial momentum — without the noise.</p></div><MoneySnapshot /></section></SafePanel>
       <SafePanel><QuickActions /></SafePanel>
       <SafePanel><section className="space-y-4"><div><p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--orion-purple)]">Business</p><h2 className="text-2xl font-semibold tracking-tight">Build what moves you forward.</h2><p className="text-sm text-muted-foreground">See the signals behind customers, sales, revenue and growth.</p></div><BusinessSnapshot /></section></SafePanel>
