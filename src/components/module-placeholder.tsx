@@ -34,16 +34,16 @@ export function ModulePlaceholder({
         <CardHeader>
           <CardTitle className="flex items-center gap-3">
             <Brain className="h-6 w-6 text-primary" />
-            Orion AI Preview
+            AlexOS Intelligence Preview
           </CardTitle>
         </CardHeader>
 
         <CardContent className="space-y-6">
           <p className="text-muted-foreground leading-7">
-            This module is currently under active development.
-            When completed, Orion AI will help you make smarter
-            business decisions, automate repetitive work and
-            generate more revenue from this area of your business.
+            This module is currently under active development. When completed,
+            AlexOS Intelligence will help you make smarter business decisions,
+            automate repetitive work and generate more revenue from this area of
+            your business.
           </p>
 
           <div className="grid gap-4 md:grid-cols-3">
@@ -62,7 +62,7 @@ export function ModulePlaceholder({
                 <Brain className="h-6 w-6 text-primary" />
                 <h3 className="font-semibold">AI Intelligence</h3>
                 <p className="text-sm text-muted-foreground">
-                  Receive intelligent recommendations from Orion.
+                  Receive intelligent recommendations from AlexOS Intelligence.
                 </p>
               </CardContent>
             </Card>
