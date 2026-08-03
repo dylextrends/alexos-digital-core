@@ -49,9 +49,9 @@ export function AppSidebar() {
   };
 
   const businessModules = modules.filter((m) => m.group === BUSINESS_GROUP);
+
   const isBusinessActive = businessModules.some((m) => isActive(m.url));
 
-  // Groups rendered in the scrollable content area (excluding Home and System)
   const contentGroups = moduleGroups.filter(
     (g) => g !== "Home" && g !== BUSINESS_GROUP && g !== "System",
   );
@@ -69,7 +69,7 @@ export function AppSidebar() {
       </SidebarHeader>
 
       <SidebarContent>
-        {/* ── Home ──────────────────────────────────── */}
+        {/* Home */}
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -77,11 +77,7 @@ export function AppSidebar() {
                 .filter((m) => m.group === "Home")
                 .map((item) => (
                   <SidebarMenuItem key={item.url}>
-                    <SidebarMenuButton
-                      asChild
-                      isActive={isActive(item.url)}
-                      tooltip={item.title}
-                    >
+                    <SidebarMenuButton asChild isActive={isActive(item.url)} tooltip={item.title}>
                       <Link to={item.url} onClick={closeSidebar}>
                         <item.icon className="h-4 w-4" />
                         <span>{item.title}</span>
@@ -93,20 +89,16 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* ── Businesses (collapsible) ───────────────── */}
+        {/* Businesses */}
         <SidebarGroup>
           {!collapsed && <SidebarGroupLabel>Businesses</SidebarGroupLabel>}
+
           <SidebarGroupContent>
             <SidebarMenu>
               {collapsed ? (
-                // Collapsed: show each business icon individually with tooltip
                 businessModules.map((item) => (
                   <SidebarMenuItem key={item.url}>
-                    <SidebarMenuButton
-                      asChild
-                      isActive={isActive(item.url)}
-                      tooltip={item.title}
-                    >
+                    <SidebarMenuButton asChild isActive={isActive(item.url)} tooltip={item.title}>
                       <Link to={item.url} onClick={closeSidebar}>
                         <item.icon className="h-4 w-4" />
                         <span>{item.title}</span>
@@ -115,7 +107,6 @@ export function AppSidebar() {
                   </SidebarMenuItem>
                 ))
               ) : (
-                // Expanded: collapsible parent + sub-items
                 <Collapsible
                   open={businessesOpen}
                   onOpenChange={setBusinessesOpen}
@@ -129,20 +120,17 @@ export function AppSidebar() {
                       >
                         <Building2 className="h-4 w-4" />
                         <span>Businesses</span>
-                        <ChevronRight
-                          className="ml-auto h-3.5 w-3.5 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
-                        />
+
+                        <ChevronRight className="ml-auto h-3.5 w-3.5 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                       </SidebarMenuButton>
                     </CollapsibleTrigger>
                   </SidebarMenuItem>
+
                   <CollapsibleContent>
                     <SidebarMenuSub>
                       {businessModules.map((item) => (
                         <SidebarMenuSubItem key={item.url}>
-                          <SidebarMenuSubButton
-                            asChild
-                            isActive={isActive(item.url)}
-                          >
+                          <SidebarMenuSubButton asChild isActive={isActive(item.url)}>
                             <Link to={item.url} onClick={closeSidebar}>
                               <item.icon className="h-3.5 w-3.5" />
                               <span>{item.title}</span>
@@ -158,22 +146,21 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* ── Remaining groups ──────────────────────── */}
+        {/* Remaining groups */}
         {contentGroups.map((group) => {
           const items = modules.filter((m) => m.group === group);
+
           if (!items.length) return null;
+
           return (
             <SidebarGroup key={group}>
               {!collapsed && <SidebarGroupLabel>{group}</SidebarGroupLabel>}
+
               <SidebarGroupContent>
                 <SidebarMenu>
                   {items.map((item) => (
                     <SidebarMenuItem key={item.url}>
-                      <SidebarMenuButton
-                        asChild
-                        isActive={isActive(item.url)}
-                        tooltip={item.title}
-                      >
+                      <SidebarMenuButton asChild isActive={isActive(item.url)} tooltip={item.title}>
                         <Link to={item.url} onClick={closeSidebar}>
                           <item.icon className="h-4 w-4" />
                           <span>{item.title}</span>
@@ -188,18 +175,13 @@ export function AppSidebar() {
         })}
       </SidebarContent>
 
-      {/* ── Footer: Settings + Sign out ───────────── */}
       <SidebarFooter className="border-t border-sidebar-border">
         <SidebarMenu>
           {modules
             .filter((m) => m.group === "System")
             .map((item) => (
               <SidebarMenuItem key={item.url}>
-                <SidebarMenuButton
-                  asChild
-                  isActive={isActive(item.url)}
-                  tooltip={item.title}
-                >
+                <SidebarMenuButton asChild isActive={isActive(item.url)} tooltip={item.title}>
                   <Link to={item.url} onClick={closeSidebar}>
                     <item.icon className="h-4 w-4" />
                     <span>{item.title}</span>
@@ -207,6 +189,7 @@ export function AppSidebar() {
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}
+
           <SidebarMenuItem>
             <SidebarMenuButton onClick={signOut} tooltip="Sign out">
               <LogOut className="h-4 w-4" />

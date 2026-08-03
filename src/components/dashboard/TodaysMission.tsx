@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ArrowUpRight, CheckCircle2, Clock3, Target, Zap } from "lucide-react";
+import { ArrowUpRight, CheckCircle2, Clock3, Zap } from "lucide-react";
 import { useTodaysPriorities } from "@/lib/intelligence/api";
 
 const TONES: Record<string, string> = {
@@ -11,28 +11,25 @@ const TONES: Record<string, string> = {
 };
 
 export default function TodaysMission() {
-  const { data: priorities, isLoading, isError } = useTodaysPriorities();
-  const activeCount = priorities.filter((p) => p.count > 0).length;
+  const { data: priorities = [], isLoading, isError } = useTodaysPriorities();
+
+  const activeCount = priorities.filter((priority) => priority.count > 0).length;
 
   return (
     <section className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#071329] text-white shadow-[0_24px_70px_-35px_rgba(37,99,235,.6)]">
-      <div className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-violet-500/15 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-28 left-1/3 h-56 w-56 rounded-full bg-blue-500/10 blur-3xl" />
-      <div className="relative p-6 sm:p-7">
-        <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+      <div className="p-5 sm:p-6">
+        <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
           <div>
-            <div className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-blue-200">
-              <Target className="h-3.5 w-3.5" /> Today's priorities
-            </div>
-            <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-              Clear the blockers. Protect the momentum.
-            </h2>
+            <h2 className="text-xl font-bold tracking-tight">Today's Mission</h2>
+
             <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-300">
-              Ranked from your live money, pipeline and goal data.
+              AlexOS is surfacing the few things most likely to matter today. Ranked from your live
+              money, pipeline and business data.
             </p>
           </div>
+
           <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-3 py-1.5 text-xs text-slate-300">
-            <Zap className="h-3.5 w-3.5 text-violet-300" />{" "}
+            <Zap className="h-3.5 w-3.5 text-violet-300" />
             {isLoading ? "Calculating" : `${activeCount} active priorities`}
           </div>
         </div>
@@ -55,7 +52,9 @@ export default function TodaysMission() {
                   >
                     <div className="flex items-center justify-between gap-3">
                       <div
-                        className={`flex h-10 w-10 items-center justify-center rounded-xl ${task.count > 0 ? TONES[task.tone] : "bg-emerald-400/10 text-emerald-300"}`}
+                        className={`flex h-10 w-10 items-center justify-center rounded-xl ${
+                          task.count > 0 ? TONES[task.tone] : "bg-emerald-400/10 text-emerald-300"
+                        }`}
                       >
                         {task.count > 0 ? (
                           <Clock3 className="h-5 w-5" />
@@ -63,11 +62,14 @@ export default function TodaysMission() {
                           <CheckCircle2 className="h-5 w-5" />
                         )}
                       </div>
+
                       <span className="text-3xl font-bold tracking-tight">{task.count}</span>
                     </div>
+
                     <p className="mt-5 text-sm font-semibold">
                       {index + 1}. {task.title}
                     </p>
+
                     <div className="mt-1 flex items-center justify-between gap-2 text-xs text-slate-400">
                       <span className="truncate">{task.detail}</span>
                       <ArrowUpRight className="h-3.5 w-3.5 shrink-0" />

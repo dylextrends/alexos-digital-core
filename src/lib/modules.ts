@@ -43,161 +43,161 @@ export interface ModuleDef {
 }
 
 export const modules: ModuleDef[] = [
-  // ── Home ─────────────────────────────────────────────
+  // Home
   {
-    title: "Home",
+    title: "Command Center",
     url: "/dashboard",
     icon: LayoutDashboard,
-    description: "Command center — priorities, money and business signals.",
+    description: "Your AlexOS Command Center with priorities, money and business signals.",
     group: "Home",
   },
 
-  // ── Businesses ───────────────────────────────────────
+  // Businesses
   {
     title: "CarBar Motion",
     url: "/vehicle-sales",
     icon: Car,
-    description: "Vehicle inventory, financing and sales pipeline.",
+    description: "Vehicle inventory, financing, quotations and customer management.",
     group: "Businesses",
   },
   {
     title: "DailyGear",
     url: "/e-commerce",
     icon: ShoppingBag,
-    description: "Products, inventory, orders and online sales.",
+    description: "Products, inventory, suppliers, customers and online orders.",
     group: "Businesses",
   },
   {
     title: "Nuvora",
     url: "/businesses",
     icon: Gem,
-    description: "Business operations and growth for Nuvora.",
+    description: "Business operations, administration and growth management.",
     group: "Businesses",
   },
   {
     title: "People",
     url: "/people",
     icon: Users,
-    description: "Customers, contacts, leads and relationship management.",
+    description: "CRM for customers, prospects, leads and relationship management.",
     group: "Businesses",
   },
 
-  // ── Money ────────────────────────────────────────────
+  // Money
   {
     title: "Money Center",
     url: "/money-center",
     icon: Wallet,
-    description: "Cash flow, income and expenses across accounts.",
+    description: "Cash flow, income, expenses, budgets and financial performance.",
     group: "Money",
   },
   {
     title: "Debt Management",
     url: "/debt-management",
     icon: TrendingDown,
-    description: "Liabilities, payoff plans and interest tracking.",
+    description: "Loans, liabilities and repayment tracking.",
     group: "Money",
   },
   {
     title: "Banking",
     url: "/banking",
     icon: Landmark,
-    description: "Loans, deposits and banking relationships.",
+    description: "Bank accounts, deposits, loans and financial relationships.",
     group: "Money",
   },
 
-  // ── Intelligence ─────────────────────────────────────
+  // Intelligence
   {
-    title: "Intelligence",
+    title: "Auren",
     url: "/auren",
     icon: Brain,
-    description: "Business signals, recommendations and intelligence.",
+    description: "Business intelligence, insights and recommendations across AlexOS.",
     group: "Intelligence",
   },
 
-  // ── Growth ───────────────────────────────────────────
+  // Growth
   {
     title: "Goals",
     url: "/goals",
     icon: Target,
-    description: "Personal, business and financial goals.",
+    description: "Personal, business and financial goals with progress tracking.",
     group: "Growth",
   },
   {
     title: "Marketing",
     url: "/marketing",
     icon: Megaphone,
-    description: "Campaigns, social media and growth automation.",
+    description: "Campaigns, content, social media and growth automation.",
     group: "Growth",
   },
   {
     title: "Reports",
     url: "/reports",
     icon: BarChart3,
-    description: "KPIs, dashboards and executive reporting.",
+    description: "Business intelligence dashboards, KPIs and executive reporting.",
     group: "Growth",
   },
 
-  // ── Library ──────────────────────────────────────────
+  // Library
   {
     title: "Library",
     url: "/library",
     icon: BookOpen,
-    description: "Documents, files, contracts and knowledge base.",
+    description: "Documents, contracts, files and knowledge base.",
     group: "Library",
   },
   {
     title: "Documents",
     url: "/documents",
     icon: FileText,
-    description: "Files, contracts and paperwork.",
+    description: "Business documents and contracts.",
     group: "Library",
   },
   {
     title: "Notes",
     url: "/notes",
     icon: StickyNote,
-    description: "Ideas, meeting notes and knowledge.",
+    description: "Ideas, meeting notes and personal knowledge.",
     group: "Library",
   },
 
-  // ── Missions ─────────────────────────────────────────
+  // Missions
   {
     title: "Missions",
     url: "/missions",
     icon: Rocket,
-    description: "Strategic priorities and mission execution.",
+    description: "Strategic priorities and execution.",
     group: "Missions",
   },
   {
     title: "Tasks",
     url: "/tasks",
     icon: CheckSquare,
-    description: "Actions, priorities and daily execution.",
+    description: "Daily tasks and action tracking.",
     group: "Missions",
   },
   {
     title: "Calendar",
     url: "/calendar",
     icon: Calendar,
-    description: "Meetings, events and schedule.",
+    description: "Meetings, schedules and events.",
     group: "Missions",
   },
 
-  // ── Notifications ────────────────────────────────────
+  // Notifications
   {
     title: "Notifications",
     url: "/notifications",
     icon: Bell,
-    description: "Alerts, updates and system signals.",
+    description: "Alerts and system notifications.",
     group: "Notifications",
   },
 
-  // ── System ───────────────────────────────────────────
+  // System
   {
     title: "Settings",
     url: "/settings",
     icon: Settings,
-    description: "Workspace, profile and preferences.",
+    description: "Workspace, preferences and account settings.",
     group: "System",
   },
 ];
@@ -214,11 +214,30 @@ export const moduleGroups: ModuleGroup[] = [
   "System",
 ];
 
-/** Five items pinned to the mobile bottom navigation bar. */
 export const bottomNavItems = [
-  { title: "Home",       url: "/dashboard",   icon: LayoutDashboard },
-  { title: "Businesses", url: "/businesses",  icon: Building2 },
-  { title: "Intelligence",      url: "/auren",       icon: Brain },
-  { title: "Money",      url: "/money-center",icon: Wallet },
-  { title: "Library",    url: "/library",     icon: BookOpen },
+  {
+    title: "Home",
+    url: "/dashboard",
+    icon: LayoutDashboard,
+  },
+  {
+    title: "Businesses",
+    url: "/businesses",
+    icon: Building2,
+  },
+  {
+    title: "Auren",
+    url: "/auren",
+    icon: Brain,
+  },
+  {
+    title: "Money",
+    url: "/money-center",
+    icon: Wallet,
+  },
+  {
+    title: "Library",
+    url: "/library",
+    icon: BookOpen,
+  },
 ] as const;

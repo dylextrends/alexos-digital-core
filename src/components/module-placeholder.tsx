@@ -9,24 +9,17 @@ interface Props {
   icon: LucideIcon;
 }
 
-export function ModulePlaceholder({
-  title,
-  description,
-  icon: Icon,
-}: Props) {
+export function ModulePlaceholder({ title, description, icon: Icon }: Props) {
   return (
-    <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in duration-500">
+    <div className="mx-auto max-w-5xl animate-in fade-in duration-500 space-y-8">
       <div className="flex items-start gap-5">
-        <div className="h-16 w-16 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
+        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary">
           <Icon className="h-8 w-8" />
         </div>
 
         <div>
           <h1 className="text-3xl font-bold">{title}</h1>
-
-          <p className="text-muted-foreground mt-2 max-w-2xl">
-            {description}
-          </p>
+          <p className="mt-2 max-w-2xl text-muted-foreground">{description}</p>
         </div>
       </div>
 
@@ -34,23 +27,24 @@ export function ModulePlaceholder({
         <CardHeader>
           <CardTitle className="flex items-center gap-3">
             <Brain className="h-6 w-6 text-primary" />
-            Intelligence Preview
+            AlexOS Intelligence Preview
           </CardTitle>
         </CardHeader>
 
         <CardContent className="space-y-6">
-          <p className="text-muted-foreground leading-7">
-            This module is currently under active development.
-            When completed, the intelligence layer will help you make smarter
-            business decisions, automate repetitive work and
-            generate more revenue from this area of your business.
+          <p className="leading-7 text-muted-foreground">
+            This module is currently under active development. When completed, AlexOS Intelligence
+            will help you make smarter business decisions, automate repetitive work and generate
+            more revenue from this area of your business.
           </p>
 
           <div className="grid gap-4 md:grid-cols-3">
             <Card>
-              <CardContent className="p-5 space-y-3">
+              <CardContent className="space-y-3 p-5">
                 <Rocket className="h-6 w-6 text-primary" />
+
                 <h3 className="font-semibold">Automation</h3>
+
                 <p className="text-sm text-muted-foreground">
                   Automate repetitive business processes.
                 </p>
@@ -58,19 +52,23 @@ export function ModulePlaceholder({
             </Card>
 
             <Card>
-              <CardContent className="p-5 space-y-3">
+              <CardContent className="space-y-3 p-5">
                 <Brain className="h-6 w-6 text-primary" />
+
                 <h3 className="font-semibold">AI Intelligence</h3>
+
                 <p className="text-sm text-muted-foreground">
-                  Receive intelligent recommendations from the intelligence layer.
+                  Receive intelligent recommendations from AlexOS Intelligence.
                 </p>
               </CardContent>
             </Card>
 
             <Card>
-              <CardContent className="p-5 space-y-3">
+              <CardContent className="space-y-3 p-5">
                 <Clock className="h-6 w-6 text-primary" />
+
                 <h3 className="font-semibold">Coming Soon</h3>
+
                 <p className="text-sm text-muted-foreground">
                   This module is scheduled in the AlexOS roadmap.
                 </p>
